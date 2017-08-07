@@ -1,0 +1,30 @@
+body{
+	padding-left: 20px;
+}
+table{
+	border-spacing: 0px 10px;
+	margin-bottom: 20px;
+}
+
+td, th{
+	padding-left: 10px;
+	padding-right: 10px;
+	vertical-align: top;
+	word-wrap:break-word;
+}
+
+.platezh_table {
+	text-align: right;
+}
+.platezh_table_header {
+    border-top: 3px double #000;
+    border-bottom: 3px double #000;
+    padding: 10px;
+}
+
+.platezh_table_footer {
+    border-top: 3px double #000;
+    border-bottom: 3px double #000;
+	text-align: right;
+	font-weight: bold; 
+}
