@@ -36,7 +36,10 @@
 			
 		echo $platezhi_in_html;
 		echo '<hr><p>';
-		echo '<a href="./annuit.php">Назад в кредитный калькулятoр</a></p>';
+		if ($platezh_type == 'annuit')
+			echo '<a href="./platezh_param.php?type_platezh=annuit">Назад в кредитный калькулятoр</a></p>';
+		elseif ($platezh_type == 'differ')
+			echo '<a href="./platezh_param.php?type_platezh=differ">Назад в кредитный калькулятoр</a></p>';
 	?>
   </body>
 </html>
