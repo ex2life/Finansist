@@ -80,18 +80,11 @@ function Annuit($str_beg_date, $sum_kred, $col_month, $proc)
 		# Корректировка последнего платежа
 		if ($nomer_platezh == $col_month) {
 			if ($ostatok_dolg != 0) {
-				#if ($ostatok_dolg_0 <= $platezh) {
-				if (1<0) {
-					$platezh = $platezh_main_dolg = $ostatok_dolg_0;
-					$platezh_proc = 0;
-					$ostatok_dolg = 0;
-				}
-				else {
-					$platezh_main_dolg = $ostatok_dolg_0;
-					$platezh_proc = $platezh - $platezh_main_dolg;
-					$platezh_proc = round($platezh_proc, 2);
-					$ostatok_dolg = 0.00;
-				}
+				$platezh_proc = $ostatok_dolg_0*$month_proc;
+				$platezh_proc = round($platezh_proc,2); #погашение процентов
+				$platezh_main_dolg = $ostatok_dolg_0;
+				$platezh = $platezh_proc + $platezh_main_dolg;
+				$ostatok_dolg = 0.00;
 			}
 		}
 			
