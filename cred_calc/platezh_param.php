@@ -23,9 +23,9 @@
 	<form method="post" action="platezh_result.php">
 		<?php
 		if ($_REQUEST['type_platezh'] == 'annuit')
-			echo '<input type="hidden" name="platezh_type" value="annuit">';
+			echo '<input type="hidden" name="type_platezh" value="annuit">';
 		elseif ($_REQUEST['type_platezh'] == 'differ')
-			echo '<input type="hidden" name="platezh_type" value="differ">';
+			echo '<input type="hidden" name="type_platezh" value="differ">';
 		?>
 		<label>Дата первого платежа: 
 		<input type="date" name="str_beg_date" value="<?=date('d.m.Y')?>" maxlength="10" autofocus required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])\.(0[1-9]|1[012])\.[0-9]{4}">
