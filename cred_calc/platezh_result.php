@@ -26,15 +26,6 @@
 		$arr_all_platezh = Payment_Schedule($type_platezh, $str_beg_date, $sum_kred, $col_month, $proc);
 		$platezhi_in_html = Platezh_to_html($str_beg_date, $sum_kred, $col_month, $proc, $arr_all_platezh);
 		
-/* 		if ($platezh_type == 'annuit') {
-			$arr_all_platezh = Annuit($str_beg_date, $sum_kred, $col_month, $proc);
-			$platezhi_in_html = Platezh_to_html('annuit', $str_beg_date, $sum_kred, $col_month, $proc, $arr_all_platezh);
-		}
-		elseif ($platezh_type == 'differ') {
-			$arr_all_platezh = Differ($str_beg_date, $sum_kred, $col_month, $proc);
-			$platezhi_in_html = Platezh_to_html('differ', $str_beg_date, $sum_kred, $col_month, $proc, $arr_all_platezh);
-		}
- */			
 		echo $platezhi_in_html;
 		echo '<hr><p>';
 		if ($platezh_type == 'annuit')
