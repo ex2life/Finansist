@@ -87,7 +87,10 @@ function Payment_Schedule($type_platezh, $str_beg_date, $sum_kred, $col_month, $
 		}
 		
 		$platezh_date = $platezh_next_date;
+		/* Сначала была полная дата 
 		$str_platezh_date = date("d.m.Y", $platezh_date);
+		*/
+		$str_platezh_date = date("m.Y", $platezh_date);
 		$platezh_next_date = Add_month($platezh_date);
 		
 		# Корректировка последнего платежа

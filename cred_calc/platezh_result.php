@@ -18,7 +18,7 @@
 	<?php 
 		require_once '../script/functions.php';
 		$type_platezh = $_POST['type_platezh'];
-		$str_beg_date = $_POST['str_beg_date'];
+		$str_beg_date = "01.".$_POST['str_beg_date'];
 		$sum_kred = $_POST['sum_kred'];
 		$col_month = $_POST['col_month'];
 		$proc = $_POST['proc'];

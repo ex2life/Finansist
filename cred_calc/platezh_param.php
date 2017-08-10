@@ -27,8 +27,10 @@
 		elseif ($_REQUEST['type_platezh'] == 'differ')
 			echo '<input type="hidden" name="type_platezh" value="differ">';
 		?>
-		<label>Дата первого платежа: 
-		<input type="date" name="str_beg_date" value="<?=date('d.m.Y')?>" maxlength="10" autofocus required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])\.(0[1-9]|1[012])\.[0-9]{4}">
+		<label>Дата получения кредита (ММ.ГГГГ): 
+		<!-- Сначала дату вводили в полном формате
+		<input type="date" name="str_beg_date" value="<?=date('d.m.Y')?>" maxlength="10" autofocus required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])\.(0[1-9]|1[012])\.[0-9]{4}"> -->
+		<input type="text" name="str_beg_date" value="<?=date('m.Y')?>" maxlength="7" autofocus required pattern="(0[1-9]|1[012])\.[0-9]{4}">
 		</label>
 		<p><label>Сумма кредита: 
 		<input type="text" name="sum_kred" required pattern="^\d+(\.\d{1,2})?$">
