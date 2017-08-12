@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
 	$('#add_flex_payments').click(function() {
 		var col_month = $.trim($("#col_month").val());
@@ -8,12 +9,16 @@ $(document).ready(function() {
 		var month = parseInt(str_month, 10),
 			year = parseInt(str_year, 10);
 		//alert(month+' '+year);
+		var str_html = "<div></div>";
 		for (var i = 1; i <= col_month; i++) {
 			str_month = (month < 10) ? "0" + month : month.toString();
 			str_date = str_month + '.' + year;
-			str_html = '<div><label>Гашение ' + str_date + ' <input type="text" class="field" name="dynamic[]" value="0" /></label></div>';
+			str_html += '<div><label>Гашение ' + str_date;
+			//Проверку значения через pattern сделать не получилось, все время ругается на неправильный формат
+			//str_html += ' <input type="text" name="flex_payment_schedule[]" value="0" pattern="^\d+(\.\d{1,2})?$"/>';
+			str_html += ' <input type="text" name="flex_payment_schedule[]" value="0"/>';
+			str_html += '</label></div>';
 			//$(str_html).fadeIn('slow').appendTo('.input_payment_schedule');
-			$(str_html).appendTo('.input_payment_schedule');
 			
 			if (month == 12) {
 				month = 1;
@@ -22,6 +27,8 @@ $(document).ready(function() {
 			else
 				month++;
 		}
+		$("#input_payment_schedule").html(str_html);
+		//$(str_html).appendTo('.input_payment_schedule');
     });
 
 });

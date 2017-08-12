@@ -39,14 +39,15 @@ function Add_month($time, $num=1) {
 // Расчет графика платежей по разным схемам.
 // Возвращает массив с типом, датами и суммами платежей.
 //---------------------------------------------------------------------
-function Payment_Schedule($type_platezh, $str_beg_date, $sum_kred, $col_month, $proc) 
+function Payment_Schedule($type_platezh, $str_beg_date, $sum_kred, $col_month, $proc, $arr_payments) 
 {
 	/*
-	$type_platezh ={'annuit', 'differ'}
-	echo "<p>Начальная дата: {$beg_date}</p>";
-	echo "<p>Сумма кредита: {$sum_kred}</p>";
-	echo "<p>Количество месяцев: {$col_month}</p>";
-	echo "<p>Процент: {$proc}</p>";
+	$type_platezh : тип платежей по кредитам {'annuit', 'differ', 'flex'}
+	$beg_date : месяц и год выдачи кредита (=месяц первого погашения)
+	$sum_kred : сумма кредита (=начальная сумма основного долга)
+	$col_month : срок кредита в месяцах
+	$proc : годовой процент
+	$arr_payments : массив платежей при гибких платежах
 	*/
 	
 	$sum_kred = round((float)$sum_kred, 2);
@@ -79,12 +80,15 @@ function Payment_Schedule($type_platezh, $str_beg_date, $sum_kred, $col_month, $
 		
 		if ($type_platezh == 'annuit') {
 			$platezh_main_dolg = $platezh - $platezh_proc;
-			$ostatok_dolg = $ostatok_dolg - $platezh_main_dolg; #остаток основного долга после очередного погашения
 		}
 		elseif ($type_platezh == 'differ') {
 			$platezh = $platezh_main_dolg + $platezh_proc;
-			$ostatok_dolg = $ostatok_dolg - $platezh_main_dolg; #остаток основного долга после очередного погашения
 		}
+		elseif ($type_platezh == 'flex') {
+			$platezh_main_dolg = $arr_payments[$nomer_platezh-1];
+			$platezh = $platezh_main_dolg + $platezh_proc;
+		}
+		$ostatok_dolg = $ostatok_dolg - $platezh_main_dolg; #остаток основного долга после очередного погашения
 		
 		$platezh_date = $platezh_next_date;
 		/* Сначала была полная дата 
@@ -130,6 +134,8 @@ function Platezh_to_html($str_beg_date, $sum_kred, $col_month, $proc, $arr_all_p
 		$str_out .= "<strong>Аннуитетный платеж</strong></p>";
 	elseif ($type_platezh == 'differ') 
 		$str_out .= "<strong>Дифференцированный платеж</strong></p>";
+	elseif ($type_platezh == 'flex') 
+		$str_out .= "<strong>Гибкий платеж</strong></p>";
 	$str_sum_kred = number_format($sum_kred, 2, '.', ' ');
 	$str_proc = number_format($proc, 2, '.', ' ');
 	$str_out .= "<p>Сумма кредита: <strong>$str_sum_kred</strong> руб.<br>";
