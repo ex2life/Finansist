@@ -8,7 +8,15 @@ $(document).ready(function() {
 			str_year = str_date.substr(3,4);
 		var month = parseInt(str_month, 10),
 			year = parseInt(str_year, 10);
-		//alert(month+' '+year);
+			
+		//Начинаем платить со следующего месяца после взятия кредита
+		if (month == 12) {
+			month = 1;
+			year++;
+		}
+		else
+			month++;
+		
 		var str_html = "<div></div>";
 		for (var i = 1; i <= col_month; i++) {
 			str_month = (month < 10) ? "0" + month : month.toString();

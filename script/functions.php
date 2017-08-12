@@ -43,7 +43,7 @@ function Payment_Schedule($type_platezh, $str_beg_date, $sum_kred, $col_month, $
 {
 	/*
 	$type_platezh : тип платежей по кредитам {'annuit', 'differ', 'flex'}
-	$beg_date : месяц и год выдачи кредита (=месяц первого погашения)
+	$str_beg_date : дата выдачи кредита в формате 01.ММ.ГГГГ (гасить начинаем в СЛЕДУЮЩЕМ месяце)
 	$sum_kred : сумма кредита (=начальная сумма основного долга)
 	$col_month : срок кредита в месяцах
 	$proc : годовой процент
@@ -58,7 +58,8 @@ function Payment_Schedule($type_platezh, $str_beg_date, $sum_kred, $col_month, $
 	
 	$beg_date = strtotime($str_beg_date);
 	
-	$platezh_next_date = $beg_date;
+	# Платить начинаем в следующем месяце после взятия кредита
+	$platezh_next_date = Add_month($beg_date);
 	$ostatok_dolg = $sum_kred;
 	$month_proc = ($proc/100)/12; #месячный процент
 	
