@@ -27,11 +27,11 @@
 	<form method="post" action="platezh_result.php">
 		<?php
 		if ($_REQUEST['type_platezh'] == 'annuit')
-			echo '<input type="hidden" name="type_platezh" value="annuit">';
+			echo '<input type="hidden" name="type_platezh" id="type_platezh" value="annuit">';
 		elseif ($_REQUEST['type_platezh'] == 'differ')
-			echo '<input type="hidden" name="type_platezh" value="differ">';
+			echo '<input type="hidden" name="type_platezh" id="type_platezh" value="differ">';
 		elseif ($_REQUEST['type_platezh'] == 'flex')
-			echo '<input type="hidden" name="type_platezh" value="flex">';
+			echo '<input type="hidden" name="type_platezh" id="type_platezh" value="flex">';
 		?>
 		<label>Дата получения кредита (ММ.ГГГГ): 
 		<!-- Сначала дату вводили в полном формате
@@ -42,7 +42,7 @@
 		<input type="text" name="sum_kred" required pattern="^\d+(\.\d{1,2})?$">
 		</label></p>
 		<p><label>Срок кредита в месяцах: 
-		<input type="number" min="1" name="col_month" id="col_month" required>
+		<input type="number" min="1" name="col_month" id="col_month" value="1" required>
 		</label></p>
 		<p><label>Процентная ставка в год: 
 		<input type="text" name="proc" required pattern="^\d+(\.\d{1,2})?$">
