@@ -49,7 +49,7 @@
 		</label></p>
 		<?php
 		if ($_REQUEST['type_platezh'] == 'flex') {
-			echo '<a id="add_flex_payments" href="#">Новый график гашений</a>';
+			# echo '<a id="add_flex_payments" href="#">Новый график гашений</a>';
 			echo '<div class="input_payment_schedule" id="input_payment_schedule">';
 			echo  '<div></div>';
 			echo '</div>';

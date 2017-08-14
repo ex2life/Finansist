@@ -38,6 +38,9 @@ function Make_flex_payment_schedule() {
 }
 
 $(document).ready(function() {
+	if ($.trim($("#type_platezh").val()) == "flex")
+		Make_flex_payment_schedule();
+	
 	$('#str_beg_date').change(function() {
 		if ($.trim($("#type_platezh").val()) == "flex")
 			Make_flex_payment_schedule();
@@ -48,9 +51,10 @@ $(document).ready(function() {
 			Make_flex_payment_schedule();
 	});
 	
+	/*
 	$('#add_flex_payments').click(function() {
 		if ($.trim($("#type_platezh").val()) == "flex")
 			Make_flex_payment_schedule();
     });
-
+	*/
 });
