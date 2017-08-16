@@ -43,5 +43,10 @@
 		elseif ($type_platezh == 'flex')
 			echo '<a href="./platezh_param.php?type_platezh=flex">Назад в кредитный калькулятoр</a></p>';
 	?>
+
+	<div id="text-popup" class="white-popup mfp-hide">
+	<p>С другой стороны постоянное информационно-пропагандистское обеспечение нашей деятельности позволяет оценить значение направлений прогрессивного развития.</p>
+	</div>
+
   </body>
 </html>

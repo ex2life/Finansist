@@ -6,11 +6,13 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
-	<link href="../css/bootstrap.min.css" rel="stylesheet"/> 
-	<link href="../css/style.css" rel="stylesheet"/> 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../css/bootstrap.min.css"/> 
+	<link rel="stylesheet" href="../css/magnific-popup.css">
+	<link rel="stylesheet" href="../css/style.css"/> 
 	<script type="text/javascript" src="../js/jquery-1.12.2.min.js"></script>
+	<script type="text/javascript" src="../js/magnific-popup.js"></script>
 	<script type="text/javascript" src="../js/my.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
 	
   <body>
@@ -24,7 +26,7 @@
 			echo "<h2>ГИБКИЙ ПЛАТЕЖ</h2>";
 		?>
 	</header>
-	<form method="post" action="platezh_result.php">
+	<form method="post" id="frmPlatezhParam" action="platezh_result_ajax.php">
 		<?php
 		if ($_REQUEST['type_platezh'] == 'annuit')
 			echo '<input type="hidden" name="type_platezh" id="type_platezh" value="annuit">';
@@ -47,6 +49,9 @@
 		<p><label>Процентная ставка в год: 
 		<input type="text" name="proc" required pattern="^\d+(\.\d{1,2})?$">
 		</label></p>
+		
+		<!-- <a href="#text-popup" class="popup-content">Вызвать окно с текстом</a> -->
+
 		<?php
 		if ($_REQUEST['type_platezh'] == 'flex') {
 			# echo '<a id="add_flex_payments" href="#">Новый график гашений</a>';
@@ -56,8 +61,14 @@
 			echo '<p></p>';
 		}
 		?>
-		<p><input type="submit" value="Построить график платежей"></p>
+		<p><input type="submit" id="btnShowPaymentSchedule" value="Показать график платежей"></p>
 	</form>
+
+	<!--
+	<div id="text-popup" class="white-popup mfp-hide">
+	<p>С другой стороны постоянное информационно-пропагандистское обеспечение нашей деятельности позволяет оценить значение направлений прогрессивного развития.</p>
+	</div>
+	-->
 
 	</body>
 </html>

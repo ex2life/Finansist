@@ -38,6 +38,8 @@ function Make_flex_payment_schedule() {
 }
 
 $(document).ready(function() {
+	//console.log("ffffff");
+	
 	if ($.trim($("#type_platezh").val()) == "flex")
 		Make_flex_payment_schedule();
 	
@@ -50,6 +52,33 @@ $(document).ready(function() {
 		if ($.trim($("#type_platezh").val()) == "flex")
 			Make_flex_payment_schedule();
 	});
+	
+	$('.popup-content').magnificPopup({
+        type: 'inline'
+    });	
+	
+	
+	$('#btnShowPaymentSchedule').click(function(){
+		var data = $("#frmPlatezhParam :input").serialize();
+		$.post($("#frmPlatezhParam").attr('action'), data, function(html_reply){
+			alert(html_reply);
+			/*
+			if (json.status == "fail") {
+				alert(json.message);
+			}
+			if (json.status == "success") {
+				alert(json.message);
+			}
+			*/
+		}
+		)
+		//alert("1111111111111");
+	});
+
+	$('#frmPlatezhParam').submit(function() {
+		return false;
+	}
+	);
 	
 	/*
 	$('#add_flex_payments').click(function() {
