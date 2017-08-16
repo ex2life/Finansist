@@ -10,6 +10,8 @@
 	<link rel="stylesheet" href="../css/magnific-popup.css">
 	<link rel="stylesheet" href="../css/style.css"/> 
 	<script type="text/javascript" src="../js/jquery-1.12.2.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="../js/additional-methods.min.js"></script>
 	<script type="text/javascript" src="../js/magnific-popup.js"></script>
 	<script type="text/javascript" src="../js/my.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +28,7 @@
 			echo "<h2>ГИБКИЙ ПЛАТЕЖ</h2>";
 		?>
 	</header>
-	<form method="post" id="frmPlatezhParam" action="platezh_result_ajax.php">
+	<form method="post" id="frmPlatezhParam" action="platezh_result.php">
 		<?php
 		if ($_REQUEST['type_platezh'] == 'annuit')
 			echo '<input type="hidden" name="type_platezh" id="type_platezh" value="annuit">';
@@ -41,7 +43,7 @@
 		<input type="text" name="str_beg_date" value="<?=date('m.Y')?>" id="str_beg_date" maxlength="7" autofocus required pattern="(0[1-9]|1[012])\.[0-9]{4}">
 		</label>
 		<p><label>Сумма кредита: 
-		<input type="text" name="sum_kred" required pattern="^\d+(\.\d{1,2})?$">
+		<input type="text" name="sum_kred" id="sum_kred" required pattern="^\d+(\.\d{1,2})?$">
 		</label></p>
 		<p><label>Срок кредита в месяцах: 
 		<input type="number" min="1" name="col_month" id="col_month" value="1" required>
@@ -50,7 +52,7 @@
 		<input type="text" name="proc" required pattern="^\d+(\.\d{1,2})?$">
 		</label></p>
 		
-		<!-- <a href="#text-popup" class="popup-content">Вызвать окно с текстом</a> -->
+		<!-- <a href="#text-popup" class="popup-content">Вызвать окно с текстом</a>  -->
 
 		<?php
 		if ($_REQUEST['type_platezh'] == 'flex') {
@@ -64,11 +66,9 @@
 		<p><input type="submit" id="btnShowPaymentSchedule" value="Показать график платежей"></p>
 	</form>
 
-	<!--
+	<!-- Контейнер для вывода графика платежей в magnific-popup -->
 	<div id="text-popup" class="white-popup mfp-hide">
-	<p>С другой стороны постоянное информационно-пропагандистское обеспечение нашей деятельности позволяет оценить значение направлений прогрессивного развития.</p>
 	</div>
-	-->
 
 	</body>
 </html>
