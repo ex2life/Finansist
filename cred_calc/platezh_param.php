@@ -7,6 +7,7 @@
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
 	<link rel="stylesheet" href="../css/bootstrap.min.css"/> 
+	<link rel="stylesheet" href="../css/jumbotron-narrow.css">
 	<link rel="stylesheet" href="../css/magnific-popup.css">
 	<link rel="stylesheet" href="../css/style.css"/> 
 	<script type="text/javascript" src="../js/jquery-1.12.2.min.js"></script>
@@ -22,15 +23,15 @@
 		<div class="header">
 			<?php
 			if ($_REQUEST['type_platezh'] == 'annuit')
-				echo '<h2 class="text-center">АННУИТЕТНЫЙ ПЛАТЕЖ</h2>';
+				echo '<h3 class="text-center">АННУИТЕТНЫЙ ПЛАТЕЖ</h3>';
 			elseif ($_REQUEST['type_platezh'] == 'differ')
-				echo '<h2 class="text-center">ДИФФЕРЕНЦИРОВАННЫЙ ПЛАТЕЖ</h2>';
+				echo '<h3 class="text-center">ДИФФЕРЕНЦИРОВАННЫЙ ПЛАТЕЖ</h3>';
 			elseif ($_REQUEST['type_platezh'] == 'flex')
-				echo '<h2 class="text-center">ГИБКИЙ ПЛАТЕЖ</h2>';
+				echo '<h3 class="text-center">ГИБКИЙ ПЛАТЕЖ</h3>';
 			?>
 		</div>
 		<div class="jumbotron">
-			<form class="form-horizontal" method="post" id="frmPlatezhParam" action="platezh_result.php">
+			<form method="post" id="frmPlatezhParam" action="platezh_result.php">
 			<!-- <form class="form-horizontal" id="frmPlatezhParam"> -->
 				<?php
 				if ($_REQUEST['type_platezh'] == 'annuit')
@@ -40,47 +41,47 @@
 				elseif ($_REQUEST['type_platezh'] == 'flex')
 					echo '<input type="hidden" name="type_platezh" id="type_platezh" value="flex">';
 				?>
-				<div class="form-group">
-					<label for="str_beg_date" class="col-xs-3 control-label">Дата получения кредита (ММ.ГГГГ) </label>
-					<div class="col-xs-9">
-						<!-- Сначала дату вводили в полном формате
-						<input type="date" name="str_beg_date" value="<?=date('d.m.Y')?>" maxlength="10" autofocus required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])\.(0[1-9]|1[012])\.[0-9]{4}"> -->
-						<input type="text" name="str_beg_date" value="<?=date('m.Y')?>" id="str_beg_date" maxlength="7" autofocus required pattern="(0[1-9]|1[012])\.[0-9]{4}">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label for="str_beg_date" class="control-label text-left">Дата получения кредита (ММ.ГГГГ) </label>
+							<!-- Сначала дату вводили в полном формате
+							<input type="date" name="str_beg_date" value="<?=date('d.m.Y')?>" maxlength="10" autofocus required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])\.(0[1-9]|1[012])\.[0-9]{4}"> -->
+							<input type="text" class="form-control" name="str_beg_date" value="<?=date('m.Y')?>" id="str_beg_date" maxlength="7" autofocus required pattern="(0[1-9]|1[012])\.[0-9]{4}">
+						</div>
+						<div class="form-group">
+							<label for="sum_kred" class="control-label">Сумма кредита </label>
+							<input type="text" class="form-control" name="sum_kred" id="sum_kred" required pattern="^\d+(\.\d{1,2})?$">
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="sum_kred" class="col-xs-3 control-label text-left">Сумма кредита </label>
-					<div class="col-xs-9">
-						<input type="text" name="sum_kred" id="sum_kred" required pattern="^\d+(\.\d{1,2})?$">
+					<div class="col-sm-6">	
+						<div class="form-group">
+							<label for="col_month" class="control-label">Срок кредита в месяцах </label>
+							<input type="number" class="form-control" min="1" name="col_month" id="col_month" value="1" required>
+						</div>
+						<div class="form-group">
+							<label for="proc" class="control-label">Процентная ставка в год </label>
+							<input type="text" class="form-control" name="proc" id="proc" required pattern="^\d+(\.\d{1,2})?$">
+						</div>
+						<!-- <a href="#text-popup" class="popup-content">Вызвать окно с текстом</a>  -->
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="col_month" class="col-xs-3 control-label">Срок кредита в месяцах </label>
-					<div class="col-xs-9">
-						<input type="number" min="1" name="col_month" id="col_month" value="1" required>
+					<div class="col-sm-6">
+						<?php
+						if ($_REQUEST['type_platezh'] == 'flex') {
+							# echo '<a id="add_flex_payments" href="#">Новый график гашений</a>';
+							echo '<div class="input_payment_schedule" id="input_payment_schedule">';
+							echo  '<div></div>';
+							echo '</div>';
+							echo '<p></p>';
+						}
+						?>
+					</div>	
+					<div class="clearfix"></div>
+						<div class="form-group">
+							<input class="col-xs-6 col-xs-offset-3 btn btn-success" type="submit" id="btnShowPaymentSchedule" value="График платежей">
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="proc" class="col-xs-3 control-label">Процентная ставка в год </label>
-					<div class="col-xs-9">
-						<input type="text" name="proc" id="proc" required pattern="^\d+(\.\d{1,2})?$">
-					</div>
-				</div>
-				
-				<!-- <a href="#text-popup" class="popup-content">Вызвать окно с текстом</a>  -->
-
-				<?php
-				if ($_REQUEST['type_platezh'] == 'flex') {
-					# echo '<a id="add_flex_payments" href="#">Новый график гашений</a>';
-					echo '<div class="input_payment_schedule" id="input_payment_schedule">';
-					echo  '<div></div>';
-					echo '</div>';
-					echo '<p></p>';
-				}
-				?>
-				<div class="form-group">
-					<input class="col-xs-2 col-xs-offset-3 btn btn-primary" type="submit" id="btnShowPaymentSchedule" value="Показать график платежей">
-				</div>
+				</div>	
 			</form>
 		</div> <!-- Конец jumbotron -->
 

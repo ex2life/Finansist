@@ -22,10 +22,10 @@ function Make_flex_payment_schedule() {
 	for (var i = 1; i <= col_month; i++) {
 		str_month = (month < 10) ? "0" + month : month.toString();
 		str_date = str_month + '.' + year;
-		str_html += '<div><label>Гашение ' + str_date;
+		str_html += '<div><label class="control-label">Гашение ' + str_date;
 		//Проверку значения через pattern сделать не получилось, все время ругается на неправильный формат
 		//str_html += ' <input type="text" name="flex_payment_schedule[]" value="0" pattern="^\d+(\.\d{1,2})?$"/>';
-		str_html += ' <input type="text" name="flex_payment_schedule[]" value="0"/>';
+		str_html += ' <input type="text" class="form-control" name="flex_payment_schedule[]" value="0"/>';
 		str_html += '</label></div>';
 		//$(str_html).fadeIn('slow').appendTo('.input_payment_schedule');
 		

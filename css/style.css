@@ -1,16 +1,21 @@
 body{
 	/*padding-left: 20px;*/
-	background-color: #778899;
+	/*background-color: #778899;*/
+    background-image: url(../img/bg.jpg);
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
+
 table{
 	border-spacing: 0px 10px;
 	margin-bottom: 20px;
 }
 
-.container {
+/*.container {
 	background-color: whitesmoke;
 }
-
+*/
 td, th{
 	padding-left: 10px;
 	padding-right: 10px;
@@ -44,4 +49,8 @@ label.error {
 
 .center {
 	text-align: center;
+}
+
+.jumbotron {
+	text-align: left;
 }
