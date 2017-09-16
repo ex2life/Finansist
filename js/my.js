@@ -40,6 +40,24 @@ function Make_flex_payment_schedule() {
 
 }
 
+function ValidFormPlatezhParam() {
+	// Количество платежей по гибкой схеме
+	var col_flex_payments = $('input[name="flex_payment_schedule[]"]').length;
+	if (col_flex_payments > 0) {
+		var sum_flex_payments = 0;
+		$('input[name="flex_payment_schedule[]"]').each(function(){
+			sum_flex_payments += parseFloat($(this).val());
+		});
+		var sum_kred = parseFloat($('#sum_kred').val());
+		if (sum_flex_payments > sum_kred) {
+			alert('Ошибка ввода - сумма платежей по кредиту (' + sum_flex_payments +' руб) больше суммы кредита (' + sum_kred + ' руб)!');
+			return false;
+		};
+
+	};
+	return $('#frmPlatezhParam').valid();
+}
+
 //**********************************************************************************************
 //Код выполняется после загрузки всего содержимого документа
 //**********************************************************************************************
@@ -108,7 +126,8 @@ $(document).ready(function() {
 	//Нажимаем на кнопку в форме
 	$('#btnShowPaymentSchedule').click(function(){
 		//Проверяем корректность значений в полях формы
-		if ($('#frmPlatezhParam').valid()) {
+		// if ($('#frmPlatezhParam').valid()) {
+		if (ValidFormPlatezhParam()) {
 			var data = $("#frmPlatezhParam :input").serialize();
 			$.post($("#frmPlatezhParam").attr('action'), data, function(html_reply){
 				$('#text-popup').html(html_reply);

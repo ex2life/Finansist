@@ -10,11 +10,6 @@
 	<link rel="stylesheet" href="../css/jumbotron-narrow.css">
 	<link rel="stylesheet" href="../css/magnific-popup.css">
 	<link rel="stylesheet" href="../css/style.css"/> 
-	<script type="text/javascript" src="../js/jquery-1.12.2.min.js"></script>
-	<script type="text/javascript" src="../js/jquery.validate.min.js"></script>
-	<script type="text/javascript" src="../js/additional-methods.min.js"></script>
-	<script type="text/javascript" src="../js/magnific-popup.js"></script>
-	<script type="text/javascript" src="../js/my.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 	
@@ -23,11 +18,11 @@
 		<div class="header">
 			<?php
 			if ($_REQUEST['type_platezh'] == 'annuit')
-				echo '<h3 class="text-center">АННУИТЕТНЫЙ ПЛАТЕЖ</h3>';
+				echo '<h2 class="text-center">АННУИТЕТНЫЙ <br>ПЛАТЕЖ</h2>';
 			elseif ($_REQUEST['type_platezh'] == 'differ')
-				echo '<h3 class="text-center">ДИФФЕРЕНЦИРОВАННЫЙ ПЛАТЕЖ</h3>';
+				echo '<h2 class="text-center">ДИФФЕРЕНЦИРОВАННЫЙ <br>ПЛАТЕЖ</h2>';
 			elseif ($_REQUEST['type_platezh'] == 'flex')
-				echo '<h3 class="text-center">ГИБКИЙ ПЛАТЕЖ</h3>';
+				echo '<h2 class="text-center">ГИБКИЙ ГРАФИК<br>ПОГАШЕНИЯ</h2>';
 			?>
 		</div>
 		<div class="jumbotron">
@@ -77,17 +72,22 @@
 						?>
 					</div>	
 					<div class="clearfix"></div>
-						<div class="form-group">
-							<input class="col-xs-6 col-xs-offset-3 btn btn-success" type="submit" id="btnShowPaymentSchedule" value="График платежей">
-						</div>
+					<div class="form-group">
+						<input class="col-xs-6 btn btn-primary" type="submit" id="btnShowPaymentSchedule" value="Рассчитать график">
+						<a class="btn btn-warning col-xs-6" href="./calc.html">Другой тип платежа</a>
 					</div>
-				</div>	
+				</div>	<!-- Конец row -->
 			</form>
 		</div> <!-- Конец jumbotron -->
 
 		<!-- Контейнер для вывода графика платежей в magnific-popup -->
 		<div id="text-popup" class="white-popup mfp-hide">
 		</div>
-	</div>
+	</div>  <!-- Конец container -->
+	<script type="text/javascript" src="../js/jquery-1.12.2.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="../js/additional-methods.min.js"></script>
+	<script type="text/javascript" src="../js/magnific-popup.js"></script>
+	<script type="text/javascript" src="../js/my.js"></script>
 </body>
 </html>
