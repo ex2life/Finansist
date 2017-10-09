@@ -27,7 +27,6 @@
 		</div>
 		<div class="jumbotron">
 			<form method="post" id="frmPlatezhParam" action="platezh_result.php">
-			<!-- <form class="form-horizontal" id="frmPlatezhParam"> -->
 				<?php
 				if ($_REQUEST['type_platezh'] == 'annuit')
 					echo '<input type="hidden" name="type_platezh" id="type_platezh" value="annuit">';
@@ -63,7 +62,6 @@
 					<div class="col-sm-6">
 						<?php
 						if ($_REQUEST['type_platezh'] == 'flex') {
-							# echo '<a id="add_flex_payments" href="#">Новый график гашений</a>';
 							echo '<div class="input_payment_schedule" id="input_payment_schedule">';
 							echo  '<div></div>';
 							echo '</div>';
