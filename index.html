@@ -1,7 +1,17 @@
-<!DOCTYPE html>
+<?php
+session_start();
+require('./registration/lib/common.php');
+$current_user = db_user_find_by_id($dbh, get_current_user_id());
+?>
 
 <html>
   <head>
+
+<div class="wrapper">
+		<?php if ($current_user): ?>
+			<a href="#" class="user"><?= $current_user['fullname'] ?></a><a href="logout.php" class="button">Выход</a>
+		<?php endif; ?>
+	</div>
 	<title>Финансист онлайн</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="description" content="" />
@@ -13,6 +23,11 @@
 	
   <body>
   	<div class="container">
+
+	    <form action="./registration/index.php">
+
+           <button type="submit" >Авторизация</button>
+	    </form>
 	    <header>
 			<h1 class="text-center">ФИНАНСИСТ ОНЛАЙН</h1>
 		</header>
@@ -25,4 +40,5 @@
 		</div>
 	</div>
   </body>
+
 </html>

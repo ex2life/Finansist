@@ -71,6 +71,11 @@ label.error {
 	text-align: left;
 }
 
+#formlogin.jumbotron {
+	text-align: center;
+	width: auto
+}
+
 .btn_margin {
 	margin-top: 20px;
 }
