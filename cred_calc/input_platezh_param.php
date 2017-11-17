@@ -72,7 +72,7 @@
 					<div class="clearfix"></div>
 					<div class="form-group">
 						<input class="col-xs-6 btn btn-primary" type="submit" id="btnShowPaymentSchedule" value="Рассчитать график">
-						<a class="btn btn-warning col-xs-6" href="./calc.html">Другой тип платежа</a>
+						<a class="btn btn-warning col-xs-6" href="./calc.php">Другой тип платежа</a>
 					</div>
 				</div>	<!-- Конец row -->
 			</form>

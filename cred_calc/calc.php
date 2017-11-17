@@ -23,7 +23,7 @@
 			Дифференцированный платеж</a>
 			<a class="btn_margin btn btn-default btn-lg col-xs-10 col-sm-6 col-md-4 col-lg-3 col-xs-offset-1 col-sm-offset-5 col-md-offset-7 col-lg-offset-9" href="./input_platezh_param.php?type_platezh=flex">
 			Гибкий график погашения</a>
-			<a class="btn_margin btn btn-warning btn-lg col-xs-10 col-sm-6 col-md-4 col-lg-3 col-xs-offset-1 col-sm-offset-5 col-md-offset-7 col-lg-offset-9" href="../index.html">Вернуться</a>
+			<a class="btn_margin btn btn-warning btn-lg col-xs-10 col-sm-6 col-md-4 col-lg-3 col-xs-offset-1 col-sm-offset-5 col-md-offset-7 col-lg-offset-9" href="../index.php">Вернуться</a>
 		</div>
 	</div>
   </body>
