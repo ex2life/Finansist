@@ -35,12 +35,13 @@
 		<?php foreach ($company_list as $i => $company): ?>
 		<tr class="<?= ($i+1)%2 == 0 ? 'even' : 'odd' ?>">
 			<td><?= $company['name'] ?></td>
-			<td><?= $company['opf_brief_name'] ?></td>
+			<td title="<?= $company['opf_full_name'] ?>"><?= $company['opf_brief_name'] ?></td>
 			<td><?= $company['inn'] ?></td>
-			<td><?= $company['sno_brief_name'] ?></td>
+			<td title="<?= $company['sno_full_name'] ?>"><?= $company['sno_brief_name'] ?></td>
 		</tr>
 		<?php endforeach; ?>
 	</table>
+
 </div>
 	</div>
   </body>
