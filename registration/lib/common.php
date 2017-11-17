@@ -332,8 +332,8 @@ function db_handle_error($dbh)
  */
 function db_company_find_all_for_current_user($dbh, $id)
 {
-	$query = 'SELECT * FROM company WHERE user_id=?';
-// подготовливаем запрос для выполнения
+	$query = 'SELECT company.company_id, company.name, company.inn, opf.brief_name as opf_brief_name, opf.full_name as opf_full_name, sno.brief_name as sno_brief_name, sno.full_name as sno_full_name FROM company, opf, sno WHERE company.sno=sno.id and company.opf=opf.id and user_id=?';
+    // подготовливаем запрос для выполнения
 	$stmt = mysqli_prepare($dbh, $query);
 	if ($stmt === false)
 		db_handle_error($dbh);

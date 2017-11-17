@@ -28,24 +28,16 @@
 	<table class="users" border="1">
 		<tr>
 			<th>Название компании</th>
-			<th>opf</th>
-			<th>inn</th>
-			<th>sno</th>
-			<!--<th>Ник</th>
-			<th>Эл.почта</th>
-			<th>ФИО</th>
-			<th>Рассылка</th>-->
+			<th>ОПФ</th>
+			<th>ИНН</th>
+			<th>СНО</th>
 		</tr>
 		<?php foreach ($company_list as $i => $company): ?>
 		<tr class="<?= ($i+1)%2 == 0 ? 'even' : 'odd' ?>">
 			<td><?= $company['name'] ?></td>
-			<td><?= $company['opf'] ?></td>
+			<td><?= $company['opf_brief_name'] ?></td>
 			<td><?= $company['inn'] ?></td>
-			<td><?= $company['sno'] ?></td>
-			<!--<td><?= htmlspecialchars($user['nickname']) ?></td>
-			<td><?= htmlspecialchars($user['email']) ?></td>
-			<td><?= htmlspecialchars($user['fullname']) ?></td>
-			<td><?= $user['newsletter'] ? 'Да' : 'Нет' ?></td>-->
+			<td><?= $company['sno_brief_name'] ?></td>
 		</tr>
 		<?php endforeach; ?>
 	</table>
