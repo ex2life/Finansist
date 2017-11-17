@@ -8,11 +8,12 @@
 	<meta name="keywords" content="" />
 	<link href="../css/bootstrap.min.css" rel="stylesheet"/> 
 	<link href="../css/style.css" rel="stylesheet"/> 
-	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="../registration/css/main.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
 	
   <body>
+  
   	<div class="container">
 	    <header class="header">
 			<h1>Ваши компании, <?= $current_user['fullname'] ?></h1>
@@ -46,8 +47,11 @@
 		</tr>
 		<?php endforeach; ?>
 	</table>
-
+    <form action="register.php" method="POST">
+        <input type="submit" name="add_company" id="add_company" value="Добавить компанию"/>
+    </form>
 </div>
 	</div>
   </body>
+  
 </html>

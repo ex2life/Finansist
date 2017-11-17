@@ -105,8 +105,8 @@ tr.odd {
     background-color: lightpink;
 }
 
-.form input[type="submit"],
-.form input[type="reset"] {
+input[type="submit"],
+input[type="reset"] {
     font-size: 14pt;
     padding: 0.3em 1em;
     color: white;
@@ -116,8 +116,8 @@ tr.odd {
     transition: all 0.5s ease;
 }
 
-.form input[type="submit"]:hover,
-.form input[type="reset"]:hover {
+input[type="submit"]:hover,
+input[type="reset"]:hover {
     background-color: #9a79d8;
     transition: all 0.5s ease;
 }
