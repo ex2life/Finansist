@@ -328,6 +328,37 @@ function db_handle_error($dbh)
 }
 
 /*
+ * Извлекает из базы компании текущего пользователя
+ */
+function db_company_find_all_for_current_user($dbh, $id)
+{
+	$query = 'SELECT * FROM company WHERE user_id=?';
+// подготовливаем запрос для выполнения
+	$stmt = mysqli_prepare($dbh, $query);
+	if ($stmt === false)
+		db_handle_error($dbh);
+
+	mysqli_stmt_bind_param($stmt, 's', $id);
+
+	// выполняем запрос и получаем результат
+	if (mysqli_stmt_execute($stmt) === false)
+		db_handle_error($dbh);
+
+	// получаем результирующий набор строк
+	$qr = mysqli_stmt_get_result($stmt);
+	if ($qr === false)
+		db_handle_error($dbh);
+	// последовательно извлекаем строки
+	while ($row = mysqli_fetch_assoc($qr))
+		$result[] = $row;
+
+	// освобождаем ресурсы, связанные с хранением результата
+	mysqli_free_result($qr);
+
+	return $result;
+}
+
+/*
  * Извлекает из базы данных список пользователей
  */
 function db_user_find_all($dbh)
