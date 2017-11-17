@@ -250,7 +250,6 @@ function register_user($dbh, &$user, &$errors)
 	read_string($_POST, 'password', $user, $errors, 6, 24, true);
 	read_string($_POST, 'password_confirmation', $user, $errors, 6, 24, true);
 	read_string($_POST, 'fullname', $user, $errors, 1, 80, true);
-	read_list($_POST, 'gender', $user, $errors, array('M', 'F'), false);
 	read_bool($_POST, 'newsletter', $user, $errors, '1', false, false);
 
 	// пароль и подтверждение пароля должны совпадать
@@ -424,16 +423,16 @@ function db_user_find_by_login($dbh, $login)
  */
 function db_user_insert($dbh, $user)
 {
-	$query = 'INSERT INTO users(nickname,email,password,fullname,gender,newsletter) VALUES(?,?,?,?,?,?)';
+	$query = 'INSERT INTO users(nickname,email,password,fullname,newsletter) VALUES(?,?,?,?,?)';
 
 	// подготовливаем запрос для выполнения
 	$stmt = mysqli_prepare($dbh, $query);
 	if ($stmt === false)
 		db_handle_error($dbh);
 
-	mysqli_stmt_bind_param($stmt, 'sssssi',
+	mysqli_stmt_bind_param($stmt, 'ssssi',
 		$user['nickname'], $user['email'], $user['password'],
-		$user['fullname'], $user['gender'], $user['newsletter']);
+		$user['fullname'], $user['newsletter']);
 
 	// выполняем запрос и получаем результат
 	if (mysqli_stmt_execute($stmt) === false)

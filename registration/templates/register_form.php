@@ -53,17 +53,6 @@
 					   value="<?= isset($form['fullname']) ? $form['fullname'] : '' ?>">
 			</div>
 			<div class="row">
-				<label>Ваш пол:</label>
-				<input type="radio" name="gender" id="gender_Male" value="M"
-					<?= isset($form['gender']) && $form['gender'] == 'M' ? 'checked="checked"' : '' ?>
-					/>
-				<label for="gender_Male">Джентельмен</label>
-				<input type="radio" name="gender" id="gender_Female" value="F"
-					<?= isset($form['gender']) && $form['gender'] == 'F' ? 'checked="checked"' : '' ?>
-					/>
-				<label for="gender_Female">Леди</label>
-			</div>
-			<div class="row">
 				<label></label>
 				<input type="checkbox" name="newsletter" id="newsletter" value="1"
 					<?= isset($form['newsletter']) && $form['newsletter'] == '1' ? 'checked="checked"' : '' ?>
