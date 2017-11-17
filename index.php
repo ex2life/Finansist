@@ -35,7 +35,7 @@ $current_user = db_user_find_by_id($dbh, get_current_user_id());
 			<h1 class="text-center">ФИНАНСИСТ ОНЛАЙН</h1>
 		</header>
 		<div class="row">
-			<a class="btn_margin btn btn-default btn-lg col-xs-10 col-sm-6 col-md-4 col-lg-3 col-xs-offset-1 col-sm-offset-5 col-md-offset-7 col-lg-offset-9" href="./cred_calc/calc.html">Кредитный калькулятор </a>
+			<a class="btn_margin btn btn-default btn-lg col-xs-10 col-sm-6 col-md-4 col-lg-3 col-xs-offset-1 col-sm-offset-5 col-md-offset-7 col-lg-offset-9" href="./cred_calc/calc.php">Кредитный калькулятор </a>
 			<a class="btn_margin btn btn-default btn-lg col-xs-10 col-sm-6 col-md-4 col-lg-3 col-xs-offset-1 col-sm-offset-5 col-md-offset-7 col-lg-offset-9" href="#">Расчет суммы кредита</a>
 			<a class="btn_margin btn btn-default btn-lg col-xs-10 col-sm-6 col-md-4 col-lg-3 col-xs-offset-1 col-sm-offset-5 col-md-offset-7 col-lg-offset-9" href="#">Финансовый анализ</a>
 			<a class="btn_margin btn btn-default btn-lg col-xs-10 col-sm-6 col-md-4 col-lg-3 col-xs-offset-1 col-sm-offset-5 col-md-offset-7 col-lg-offset-9" href="#">Управленческая отчетность</a>
