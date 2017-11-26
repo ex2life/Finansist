@@ -218,11 +218,19 @@ function login_user($dbh, &$user, &$errors)
 	// форма передана правильно, ищем пользователя и проверяем пароль
 	$db_user = db_user_find_by_login($dbh, $user['username']);
 	// смотрим, есть ли такой пользователь и правильно ли передан пароль
-	if ($db_user == null || $db_user['password'] !== crypt($user['password'], $db_user['password']))
+	if ($db_user == null || !password_verify($user['password'], $db_user['password']))
 		return add_error($errors, 'password', 'invalid');
-
 	// пользователь ввел правильные имя и пароль, запоминаем его в сессии
 	store_current_user_id($db_user['id']);
+	// проверяем, нужно ли обновить кеш пароля
+	if (password_needs_rehash($db_user['password'], PASSWORD_DEFAULT)) 
+	{
+    // Кеш пароля нужно обновить, в связи с изменением алгоритма
+    $db_user['password'] = password_hash($user['password'], PASSWORD_DEFAULT);
+	// обновим кеш в базе данных
+    $db_user = db_user_update($dbh, $db_user);
+    // don't forget to store the new hash!
+    }
 	return true;
 }
 
@@ -264,7 +272,7 @@ function register_user($dbh, &$user, &$errors)
 		return false;
 
 	// защищаем пароль пользователя
-	$user['password'] = crypt($user['password']);
+	$user['password'] = password_hash($user['password'], PASSWORD_DEFAULT);
 	unset($user['password_confirmation']);
 
 	// форма передана правильно, сохраняем пользователя в базу данных
@@ -464,6 +472,34 @@ function db_user_insert($dbh, $user)
 	mysqli_stmt_bind_param($stmt, 'ssssi',
 		$user['nickname'], $user['email'], $user['password'],
 		$user['fullname'], $user['newsletter']);
+
+	// выполняем запрос и получаем результат
+	if (mysqli_stmt_execute($stmt) === false)
+		db_handle_error($dbh);
+
+	// получаем идентификатор вставленной записи
+	$user['id'] = mysqli_insert_id($dbh);
+
+	// освобождаем ресурсы, связанные с хранением результата и запроса
+	mysqli_stmt_close($stmt);
+
+	return $user;
+}
+
+
+/*
+ * Обновление пароля пользователе в базе данных
+ */
+function db_user_update($dbh, $user)
+{
+	$query = 'UPDATE `users` SET `nickname`=?,`email`=?,`password`=?,`fullname`=?,`newsletter`=? WHERE `id`=?';
+	// подготовливаем запрос для выполнения
+	$stmt = mysqli_prepare($dbh, $query);
+	if ($stmt === false)
+		db_handle_error($dbh);
+	mysqli_stmt_bind_param($stmt, 'ssssii',
+		$user['nickname'], $user['email'], $user['password'],
+		$user['fullname'], $user['newsletter'], $user['id']);
 
 	// выполняем запрос и получаем результат
 	if (mysqli_stmt_execute($stmt) === false)
