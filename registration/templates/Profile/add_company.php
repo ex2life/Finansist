@@ -8,7 +8,7 @@
 	<meta name="keywords" content="" />
 	<link href="../css/bootstrap.min.css" rel="stylesheet"/> 
 	<link href="../css/style.css" rel="stylesheet"/> 
-	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="./css/main.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
 	
