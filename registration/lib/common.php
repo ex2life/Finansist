@@ -488,7 +488,7 @@ function db_user_insert($dbh, $user)
 
 
 /*
- * Обновление пароля пользователе в базе данных
+ * Обновление данных пользователя в базе данных
  */
 function db_user_update($dbh, $user)
 {
