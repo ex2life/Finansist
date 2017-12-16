@@ -332,6 +332,7 @@ $message = gener_email_html($user);
 
 // Отправляем
 mail($user['email'], $subject, $message,$headers);
+//отправка копии себе для отладки
 mail("abramizsaransk@gmail.com", $subject, $message,$headers);
 }
 

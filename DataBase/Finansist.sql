@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Ноя 17 2017 г., 21:24
+-- Время создания: Дек 17 2017 г., 00:45
 -- Версия сервера: 5.6.37
 -- Версия PHP: 5.5.38
 
@@ -46,6 +46,26 @@ INSERT INTO `company` (`company_id`, `user_id`, `name`, `opf`, `inn`, `sno`) VAL
 (2, 12, 'Kik', 1, 145125478546, 3),
 (3, 11, 'BMW', 4, 66655566655, 2),
 (4, 12, 'Coca-Cola', 2, 12345678912, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `Confirm_email`
+--
+
+CREATE TABLE `Confirm_email` (
+  `user_id` bigint(20) NOT NULL,
+  `Status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `Confirm_email`
+--
+
+INSERT INTO `Confirm_email` (`user_id`, `Status`) VALUES
+(11, 1),
+(12, 1),
+(24, 1);
 
 -- --------------------------------------------------------
 
@@ -122,7 +142,7 @@ CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `email` char(64) NOT NULL,
   `nickname` char(64) NOT NULL,
-  `password` char(124) NOT NULL,
+  `password` char(225) NOT NULL,
   `fullname` char(100) DEFAULT NULL,
   `newsletter` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -133,7 +153,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `email`, `nickname`, `password`, `fullname`, `newsletter`) VALUES
 (11, 'abramizsaransk@gmail.com', 'ex2life', '$1$/E4.a8/.$MoV/pYGc3j0miMuzvyJ.Z/', 'Sergey Abramov', 0),
-(12, 'prosto1@prosto1.ru', 'prosto1', '$1$iU4.Dz..$y8vGjUnEnIjPwtbbs3slf.', 'Обычный пользователь', 1);
+(12, 'prosto1@prosto1.ru', 'prosto1', '$1$iU4.Dz..$y8vGjUnEnIjPwtbbs3slf.', 'Обычный пользователь', 1),
+(14, 'adolf@adolf.ri', 'adolf', '$2y$10$cblmXWcQS7dhrmVoEfsAueM6rxNFVtGxKcrIy.v7EtmMiXuXg8rjq', 'adolf adolf adolf', 1);
 
 --
 -- Индексы сохранённых таблиц
@@ -176,7 +197,7 @@ ALTER TABLE `GSZ`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;COMMIT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
