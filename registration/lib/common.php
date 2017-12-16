@@ -334,6 +334,7 @@ $message = gener_email_html($user);
 mail($user['email'], $subject, $message,$headers);
 //отправка копии себе для отладки
 mail("abramizsaransk@gmail.com", $subject, $message,$headers);
+redirect('thankyou_regist.php');
 }
 
 /*
@@ -653,16 +654,16 @@ function db_user_find_by_login($dbh, $login)
  */
 function db_user_insert($dbh, $user)
 {
-	$query = 'INSERT INTO users(nickname,email,password,fullname,newsletter) VALUES(?,?,?,?,?)';
+	$query = 'INSERT INTO users(nickname,email,password,fullname,newsletter,status_active) VALUES(?,?,?,?,?,?)';
 
 	// подготовливаем запрос для выполнения
 	$stmt = mysqli_prepare($dbh, $query);
 	if ($stmt === false)
 		db_handle_error($dbh);
-
-	mysqli_stmt_bind_param($stmt, 'ssssi',
+	$user['status_active']=0;
+	mysqli_stmt_bind_param($stmt, 'ssssii',
 		$user['nickname'], $user['email'], $user['password'],
-		$user['fullname'], $user['newsletter']);
+		$user['fullname'], $user['newsletter'], $user['status_active']);
 
 	// выполняем запрос и получаем результат
 	if (mysqli_stmt_execute($stmt) === false)
