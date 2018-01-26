@@ -243,7 +243,7 @@ function logout_user()
 }
 
 /*
- * Выполняет ркгистрацию пользователя, возвращает true, если регистраиция
+ * Выполняет регистрацию пользователя, возвращает true, если регистраиция
  * завершилась успешно, и false и заполненный массив ошибок в противном
  * случае
  */
@@ -325,8 +325,7 @@ $headers = "To: name <".$to.">\r\n";
 $headers = "From: Финансист\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: text/html; charset=utf-8";
-$salt="28dney";
-$user['link']=$_SERVER['HTTP_HOST']."/registration/verification.php?mail=".$user['email']."&hash=".md5($salt.$user['id']);
+$user['link']=$_SERVER['HTTP_HOST']."/finansist/registration/verification.php?mail=".$user['email']."&hash=".md5(SALT.$user['id']);
 $message = gener_email_html($user);
 
 
@@ -335,6 +334,20 @@ mail($user['email'], $subject, $message,$headers);
 //отправка копии себе для отладки
 mail("abramizsaransk@gmail.com", $subject, $message,$headers);
 redirect('thankyou_regist.php');
+}
+
+/*
+ * Процесс подтверждения почты
+ */
+function good_email($dbh, $array_get)
+{
+	$id_email=db_user_id_find_by_email($dbh, $array_get['mail']);
+	if ($array_get['hash']==md5(SALT.$id_email)) {
+		$status=db_user_status_update($dbh, $id_email);
+		return true;
+	} else {
+		return false;
+	}
 }
 
 /*
@@ -614,6 +627,43 @@ function db_user_find_by_id($dbh, $id)
 	return $result;
 }
 
+
+/*
+ * Выполняет поиск в базе данных и возвращает id пользователя с указанным email
+ */
+function db_user_id_find_by_email($dbh, $mail)
+{
+	$query = 'SELECT id  FROM users WHERE email=?';
+
+	// подготовливаем запрос для выполнения
+	$stmt = mysqli_prepare($dbh, $query);
+	if ($stmt === false)
+		db_handle_error($dbh);
+
+	mysqli_stmt_bind_param($stmt, 's', $mail);
+
+	// выполняем запрос и получаем результат
+	if (mysqli_stmt_execute($stmt) === false)
+		db_handle_error($dbh);
+
+	// получаем результирующий набор строк
+	$qr = mysqli_stmt_get_result($stmt);
+	if ($qr === false)
+		db_handle_error($dbh);
+
+	// извлекаем результирующую строку
+	$result = mysqli_fetch_assoc($qr);
+
+	// освобождаем ресурсы, связанные с хранением результата и запроса
+	mysqli_free_result($qr);
+	mysqli_stmt_close($stmt);
+	
+	// извлекаем id
+	$id_email=$result['id'];
+
+	return $id_email;
+}
+
 /*
  * Выполняет поиск в базе данных и загрузку пользователя с указанным логином
  * (логином считаем адрес электронной почты и ник пользователя)
@@ -704,4 +754,26 @@ function db_user_update($dbh, $user)
 	mysqli_stmt_close($stmt);
 
 	return $user;
+}
+
+/*
+ * Обновление статуса пользователя в базе данных
+ */
+function db_user_status_update($dbh, $id_mail)
+{
+	$query = 'UPDATE `users` SET `status_active`=1 WHERE `id`=?';
+	// подготовливаем запрос для выполнения
+	$stmt = mysqli_prepare($dbh, $query);
+	if ($stmt === false)
+		db_handle_error($dbh);
+	mysqli_stmt_bind_param($stmt, 'i', $id_mail);
+
+	// выполняем запрос и получаем результат
+	if (mysqli_stmt_execute($stmt) === false)
+		db_handle_error($dbh);
+
+	// освобождаем ресурсы, связанные с хранением результата и запроса
+	mysqli_stmt_close($stmt);
+
+	return true;
 }

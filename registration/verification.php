@@ -9,23 +9,25 @@ function main()
 {
 	// создаем сессию
 	session_start();
-
-	if (!is_current_user()) {
-		// отправляем пользователя на страницу входа в систему
-		redirect('login.php');
-	}
-
+	 
 	// у нас есть пользователь, считываем список пользователей из БД, и отображаем его
-
+	
 	// подключаемся к базе данных
 	$dbh = db_connect();
+	$update_status=good_email($dbh, $_GET);
+	if ($update_status==true) {
+		redirect('index.php');
+	} else {
+		echo ('vse ne ok');
+	}
 
+	
 	// считываем список пользователей и текущего пользователя
 	$user_list = db_user_find_all($dbh);
 	$current_user = db_user_find_by_id($dbh, get_current_user_id());
 
-    redirect('../index.php');
-	// закрываем соединение с базой данных
+    // закрываем соединение с базой данных
+	
 	db_close($dbh);
 }
 
