@@ -16,7 +16,7 @@ function main()
 	$dbh = db_connect();
 	$update_status=good_email($dbh, $_GET);
 	if ($update_status==true) {
-		redirect('index.php');
+		redirect('thankyou_commit_regist.php');
 	} else {
 		echo ('vse ne ok');
 	}
