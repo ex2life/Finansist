@@ -1,6 +1,11 @@
+<?php
+header("HTTP/1.1 301 Moved Permanently");
+header('Refresh: 10; url=login.php');
+?>
 <html>
   <head>
 	<title>Финансист онлайн</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
 	<link href="../css/bootstrap.min.css" rel="stylesheet"/> 
@@ -19,9 +24,7 @@
 	   	<h2>Спасибо за подтверждение регистрации!</h2>
 	<div class="info">
 	<?php
-header("HTTP/1.1 301 Moved Permanently");
-header('Refresh: 10; url=login.php');
-echo 'Через 10 сек. вы будете перенаправлены на новую страницу.';
+echo 'Через 10 сек. вы будете перенаправлены на страницу авторизации.';
 exit();
 ?>
 	</div>
