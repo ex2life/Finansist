@@ -24,8 +24,17 @@ function onSignIn(googleUser) {
 		xhr.open('POST', './login.php');
 		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		xhr.onload = function() {
-		  console.log('Response: ' + xhr.responseText);
-		  document.location.replace("./");
+			
+			if (xhr.responseText=="auth_ok") 
+			{	
+				console.log('Response/ : ' + xhr.responseText);
+				document.location.replace("./");
+			}
+			else
+			{	
+				console.log('Response// : ' + xhr.responseText);
+				document.location.replace("./register.php?reg=google&full_name="+profile.getName()+"&email="+profile.getEmail()+"&nickname="+profile.getEmail().split('@',1));  
+			}
 		};
 		xhr.send('idtoken=' + id_token+'&log=google');
 		

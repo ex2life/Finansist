@@ -22,7 +22,25 @@ function main()
 		// если пользователь уже залогинен, то отправляем его на глапную
 		redirect('./');
 	}
-
+	
+	if ($_GET['reg']=='google')
+	{	
+		if (isset($_GET['nickname']))
+			{
+				$data_get['nickname'] = $_GET['nickname'];
+			}
+		if (isset($_GET['full_name']))
+			{
+				$data_get['fullname'] = $_GET['full_name'];
+			}
+		if (isset($_GET['email']))
+			{
+				$data_get['email'] = $_GET['email'];
+			}
+		render('register_form', array(
+				'form' => $data_get, 'errors' => $errors
+			));
+	}
 	if (is_postback()) {
 		// обрабатываем отправленную форму
 		$dbh = db_connect();

@@ -247,7 +247,7 @@ function login_social_user($dbh, $soc, $socid, $errors)
 	// форма передана правильно, ищем пользователя и проверяем пароль
 	$id_otv = db_id_find_by_socid($dbh, $soc, $socid);
 	store_current_user_id($id_otv);
-	return $socid;
+	return $id_otv;
 }
 
 /*

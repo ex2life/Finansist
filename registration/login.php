@@ -39,7 +39,10 @@ function main()
 		if ($_GET['hash']==md5("6394999".$_GET['uid']."C4TLEl6y6TQuLZJj9KGG"))
 		{
 			$dbh = db_connect();
-			$post_result = login_social_user($dbh, $_GET['log'], $_GET['uid'], $errors);
+			$post_result = login_social_user($dbh, $_GET['log'], $_GET['uid']+1, $errors);
+			if ($post_result==0) {//Если логин в базе не найден
+				$post_result=false;
+			}
 			db_close($dbh);
 			if ($post_result) 
 			{
@@ -48,7 +51,15 @@ function main()
 			} 
 			else {
 				// информация о пользователе заполнена неправильно, выведем страницу с ошибками
-				render('login_form', array(
+				if (isset($_GET['first_name']))
+				{
+					$data_get['fullname'] = $_GET['first_name'];
+				}
+				if (isset($_GET['last_name']))
+				{
+					$data_get['fullname'] = $data_get['fullname']." ".$_GET['last_name'];
+				}
+				render('register_form', array(
 					'form' => $_POST, 'errors' => $errors
 				));
 			}
@@ -87,8 +98,11 @@ function main()
 		  $check = checkTelegramAuthorization($_GET);
 		  if ($check){
 			$dbh = db_connect();
-			$post_result = login_social_user($dbh, $_GET['log'], $_GET['id'], $errors);
+			$post_result = login_social_user($dbh, $_GET['log'], $_GET['id']+1, $errors);
 			db_close($dbh);
+			if ($post_result==0) {//Если логин в базе не найден
+				$post_result=false;
+			}
 			if ($post_result) 
 			{
 				//// перенаправляем на главную
@@ -96,8 +110,20 @@ function main()
 			} 
 			else {
 				// информация о пользователе заполнена неправильно, выведем страницу с ошибками
-				render('login_form', array(
-					'form' => $_POST, 'errors' => $errors
+				if (isset($_GET['username']))
+				{
+					$data_get['nickname'] = $_GET['username'];
+				}
+				if (isset($_GET['first_name']))
+				{
+					$data_get['fullname'] = $_GET['first_name'];
+				}
+				if (isset($_GET['last_name']))
+				{
+					$data_get['fullname'] = $data_get['fullname']." ".$_GET['last_name'];
+				}
+				render('register_form', array(
+					'form' => $data_get, 'errors' => $errors
 				));
 			}
 		  }
@@ -113,7 +139,10 @@ function main()
 		}
 		else{
 			$dbh = db_connect();
-			$post_result = login_social_user($dbh, $_POST['log'], $idgoogleuser, $errors);
+			$post_result = login_social_user($dbh, $_POST['log'], $idgoogleuser+1, $errors);
+			if ($post_result==0) {//Если логин в базе не найден
+				$post_result=false;
+			}
 			db_close($dbh);
 			if ($post_result) 
 			{
@@ -123,10 +152,7 @@ function main()
 			} 
 			else {
 				// информация о пользователе заполнена неправильно, выведем страницу с ошибками
-				//render('login_form', array(
-				//	'form' => $_POST, 'errors' => $errors
-				//));
-				echo "0";
+				echo "auth_not_found";
 			}
 		}
 	}
