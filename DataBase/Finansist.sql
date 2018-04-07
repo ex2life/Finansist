@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Ноя 17 2017 г., 21:24
+-- Время создания: Апр 07 2018 г., 18:11
 -- Версия сервера: 5.6.37
 -- Версия PHP: 5.5.38
 
@@ -21,6 +21,26 @@ SET time_zone = "+00:00";
 --
 -- База данных: `Finansist`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `auth_social`
+--
+
+CREATE TABLE `auth_social` (
+  `id_user` int(11) NOT NULL,
+  `vk` char(225) NOT NULL,
+  `google` char(225) NOT NULL,
+  `telegram` char(225) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `auth_social`
+--
+
+INSERT INTO `auth_social` (`id_user`, `vk`, `google`, `telegram`) VALUES
+(37, '65258217', '102343534902327545840', '179932055');
 
 -- --------------------------------------------------------
 
@@ -122,18 +142,20 @@ CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `email` char(64) NOT NULL,
   `nickname` char(64) NOT NULL,
-  `password` char(124) NOT NULL,
+  `password` char(225) NOT NULL,
   `fullname` char(100) DEFAULT NULL,
-  `newsletter` tinyint(1) DEFAULT NULL
+  `newsletter` tinyint(1) DEFAULT NULL,
+  `status_active` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`id`, `email`, `nickname`, `password`, `fullname`, `newsletter`) VALUES
-(11, 'abramizsaransk@gmail.com', 'ex2life', '$1$/E4.a8/.$MoV/pYGc3j0miMuzvyJ.Z/', 'Sergey Abramov', 0),
-(12, 'prosto1@prosto1.ru', 'prosto1', '$1$iU4.Dz..$y8vGjUnEnIjPwtbbs3slf.', 'Обычный пользователь', 1);
+INSERT INTO `users` (`id`, `email`, `nickname`, `password`, `fullname`, `newsletter`, `status_active`) VALUES
+(35, 'dsfsd@sffdg.dfg', 'ex3life', '$2y$10$lGveWBCCdxSzbCRlNITPXOzDLAWkk2WfGXTCrOf6Igiqi3qnwtCRe', 'ex3life ex3life ex3life', 1, 1),
+(36, 'ex3life@ex3life.ex3life', 'ex3lifeex3life', '$2y$10$nviWWkkjQuEZb/NdiLviX.WI8iHl3ylplR5HI5TtkRmOXfja29I92', 'ex3life ex3life ex3life', 0, 1),
+(37, 'abramizsaransk@gmail.com', 'ex2life', '$2y$10$YPlUSodzPk4vCRpqQ/o6jO7fyZNRs8uw5oujiEZLuH2TZyJQEwcYG', 'Sergey Abramov', 1, 1);
 
 --
 -- Индексы сохранённых таблиц
@@ -176,7 +198,7 @@ ALTER TABLE `GSZ`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;COMMIT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
