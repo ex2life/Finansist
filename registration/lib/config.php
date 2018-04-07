@@ -23,3 +23,8 @@ define('DB_PASSWORD', '');
  * Имя базы данных на сервере
  */
 define('DB_NAME', 'Finansist');
+
+/*
+ * Соль для хешей
+ */
+ define('SALT', '28dney');

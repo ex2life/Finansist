@@ -59,6 +59,18 @@ tr.odd {
     text-align: center;
 }
 
+#vk_auth{
+	margin: 0 auto;
+}
+
+.g-signin2{
+  width: 100%;
+}
+
+.g-signin2 > div{
+  margin: 0 auto;
+}
+
 .form h1 {
     text-align: center;
     font-size: 18pt;
@@ -74,12 +86,6 @@ tr.odd {
     color: red;
 }
 
-.form input[type="radio"] + label {
-    width: auto;
-}
-.form input[type="checkbox"] + label {
-    width: auto;
-}
 
 .form input[type="text"],
 .form input[type="password"] {

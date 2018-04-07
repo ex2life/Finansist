@@ -1,5 +1,43 @@
 <!DOCTYPE html>
+<script type="text/javascript" src="//vk.com/js/api/openapi.js?152"></script>
+<script type="text/javascript">
+  VK.init({apiId: 6394999});
+</script>
+<script type="text/javascript">
+  VK.Widgets.Auth("vk_auth", {"width":300,"authUrl":"http://finansist3261.com/registration/login.php?log=vk&"});
+</script>
+<script type="text/javascript">
+function onSignIn(googleUser) {
+		  
+        // Useful data for your client-side scripts:
+        var profile = googleUser.getBasicProfile();
+        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+        console.log('Full Name: ' + profile.getName());
+        console.log('Given Name: ' + profile.getGivenName());
+        console.log('Family Name: ' + profile.getFamilyName());
+        console.log("Image URL: " + profile.getImageUrl());
+        console.log("Email: " + profile.getEmail());
+        // The ID token you need to pass to your backend:
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', './login.php');
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhr.onload = function() {
+		  console.log('Response: ' + xhr.responseText);
+		  document.location.replace("./");
+		};
+		xhr.send('idtoken=' + id_token+'&log=google');
+		
+      };
 
+		  function signOut() {
+			var auth2 = gapi.auth2.getAuthInstance();
+			auth2.signOut().then(function () {
+			  console.log('User signed out.');
+			});
+			}
+</script>
 <html>
   <head>
 	<title>Финансист онлайн</title>
@@ -10,6 +48,9 @@
 	<link href="../css/style.css" rel="stylesheet"/> 
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="846998585230-oct4e70i9en6bivrhaak2ikremk4ga8q.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
   </head>
 	
   <body>
@@ -27,8 +68,22 @@
 		<div class="error-msg">
 		При заполнении формы возникли ошибки, пожалуйста проверьте правильность заполнения полей и нажмите "Войти"!
 		</div>
-		<?php endif; ?>
+		<?php endif;?>
 		<form action="login.php" method="POST">
+			<?php if ($_GET['type']=='vk'): ?>
+			<div class="row footer">
+			<!-- VK Widget -->
+			<div id="vk_auth"></div>
+			</div>
+			<?php elseif ($_GET['type']=='telegram'): ?>
+			<div class="row footer">
+				<script async data-width="300" src="https://telegram.org/js/telegram-widget.js?4" data-telegram-login="finansist_authBot" data-size="large" data-auth-url="http://finansist3261.com/registration/login.php?log=telegram&" data-request-access="write"></script>
+			</div>
+			<?php elseif ($_GET['type']=='google'): ?>
+			<div class="row footer">
+			<div text-align="center" class="g-signin2" data-width="250"  data-onsuccess="onSignIn" data-theme="dark"></div>
+			</div>
+			<?php else: ?>
 			<div class="row <?= is_error($errors, 'username') ? 'error' : '' ?>">
 				<label for="username">Имя пользователя<span class="required">*</span>:</label>
 				<input type="text" name="username" id="username"
@@ -41,6 +96,18 @@
 			<div class="row footer">
 				<input type="submit" name="login" id="login" value="Войти"/>
 				<input type="reset" name="reset" id="reset" value="Очистить"/>
+			</div>
+			<?php endif; ?>
+			<div class="row footer">
+				<b text-align="center" >Вход через социальные сети:<p></b>
+				<a href="login.php?type=vk"><img src="../img/VK_Logo.png" width="35" 
+					height="35" alt="Vkontakte"></a>
+				<a href="login.php?type=telegram"><img src="../img/Telegram_Logo.png" width="35" 
+					height="35" alt="Telegram"></a>
+				<a href="login.php?type=google"><img src="../img/Google_Logo.png" width="35" 
+					height="35" alt="Google"></a>
+				<a href="login.php"><img src="../img/Email_Logo.png" width="35" 
+					height="35" alt="Email"></a>
 			</div>
 			<div class="row footer">
 				Еще не зарегистрированы? <a href="register.php">Зарегистрируйтесь!</a>
