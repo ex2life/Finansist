@@ -51,6 +51,9 @@ function main()
 			} 
 			else {
 				// информация о пользователе заполнена неправильно, выведем страницу с ошибками
+				$dbh = db_connect();
+				$post_result = db_user_not_reg_insert($dbh, $_GET['log'], $_GET['uid']+1, $errors);
+				db_close($dbh);
 				if (isset($_GET['first_name']))
 				{
 					$data_get['fullname'] = $_GET['first_name'];
@@ -60,7 +63,7 @@ function main()
 					$data_get['fullname'] = $data_get['fullname']." ".$_GET['last_name'];
 				}
 				render('register_form', array(
-					'form' => $_POST, 'errors' => $errors
+					'form' => $data_get, 'errors' => $errors
 				));
 			}
 		};
@@ -110,6 +113,9 @@ function main()
 			} 
 			else {
 				// информация о пользователе заполнена неправильно, выведем страницу с ошибками
+				$dbh = db_connect();
+				$post_result = db_user_not_reg_insert($dbh, $_GET['log'], $_GET['id']+1, $errors);
+				db_close($dbh);
 				if (isset($_GET['username']))
 				{
 					$data_get['nickname'] = $_GET['username'];
@@ -152,6 +158,9 @@ function main()
 			} 
 			else {
 				// информация о пользователе заполнена неправильно, выведем страницу с ошибками
+				$dbh = db_connect();
+				$post_result = db_user_not_reg_insert($dbh, $_POST['log'], $idgoogleuser+1, $errors);
+				db_close($dbh);
 				echo "auth_not_found";
 			}
 		}

@@ -777,6 +777,34 @@ function db_user_insert($dbh, $user)
 	return $user;
 }
 
+/*
+ * Вставляет в базу данных строку с информацией о id пользователя в соц сети, с помощью которой он регистрируется
+ */
+function db_user_not_reg_insert($dbh, $soc, $socid)
+{
+	$query = 'INSERT INTO not_end_registration(id,social,hash) VALUES(?,?,?)';
+
+	// подготовливаем запрос для выполнения
+	$stmt = mysqli_prepare($dbh, $query);
+	if ($stmt === false)
+		db_handle_error($dbh);
+	$user['status_active']=0;
+	$hash=md5($socid."grimm");
+	mysqli_stmt_bind_param($stmt, 'iss',
+		$socid, $soc, $hash);
+
+	// выполняем запрос и получаем результат
+	if (mysqli_stmt_execute($stmt) === false)
+		db_handle_error($dbh);
+
+	// получаем идентификатор вставленной записи
+
+	// освобождаем ресурсы, связанные с хранением результата и запроса
+	mysqli_stmt_close($stmt);
+
+	return true;
+}
+
 
 /*
  * Обновление данных пользователя в базе данных
