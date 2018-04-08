@@ -783,8 +783,6 @@ function db_user_insert($dbh, $user)
 function db_user_not_reg_insert($dbh, $soc, $socid)
 {
 	$query = 'INSERT IGNORE INTO not_end_registration(id,social,hash) VALUES(?,?,?)';
-	//$query = 'INSERT INTO not_end_registration(id) SELECT DISTINCT '.$socid.' FROM not_end_registration WHERE NOT EXISTS (SELECT id FROM not_end_registration WHERE id = ?)';
-
 	// подготовливаем запрос для выполнения
 	$stmt = mysqli_prepare($dbh, $query);
 	if ($stmt === false)

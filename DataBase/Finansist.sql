@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Апр 07 2018 г., 18:11
+-- Время создания: Апр 08 2018 г., 03:18
 -- Версия сервера: 5.6.37
 -- Версия PHP: 5.5.38
 
@@ -90,6 +90,27 @@ INSERT INTO `GSZ` (`Id`, `Brief_Name`, `Full_Name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `not_end_registration`
+--
+
+CREATE TABLE `not_end_registration` (
+  `id` int(11) NOT NULL,
+  `social` char(20) NOT NULL,
+  `hash` char(225) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `not_end_registration`
+--
+
+INSERT INTO `not_end_registration` (`id`, `social`, `hash`) VALUES
+(2147483647, 'google', '144e7b73284877abd748e40d3bd1bb0f'),
+(65258218, 'vk', '38f6a97c0cc7a4e9c6ed33e2aa5280ef'),
+(179932056, 'telegram', '98db09ef3b08e41b8a8c9ceb656c0124');
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `opf`
 --
 
@@ -172,6 +193,12 @@ ALTER TABLE `company`
 --
 ALTER TABLE `GSZ`
   ADD PRIMARY KEY (`Id`);
+
+--
+-- Индексы таблицы `not_end_registration`
+--
+ALTER TABLE `not_end_registration`
+  ADD PRIMARY KEY (`hash`);
 
 --
 -- Индексы таблицы `users`
