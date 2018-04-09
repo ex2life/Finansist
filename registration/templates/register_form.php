@@ -34,6 +34,10 @@
 				<input type="text" name="nickname" id="nickname"
 					   value="<?= isset($form['nickname']) ? $form['nickname'] : '' ?>">
 			</div>
+			<div>
+				<input type="hidden" name="socid_soc" id="socid_soc"
+					   value="<?= isset($form['socid_soc']) ? $form['socid_soc'] : '' ?>">
+			</div>
 			<div class="row <?= is_error($errors, 'email') ? 'error' : '' ?>">
 				<label for="email">Эл.почта<span class="required">*</span>:</label>
 				<input type="text" name="email" id="email"

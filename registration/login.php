@@ -39,7 +39,7 @@ function main()
 		if ($_GET['hash']==md5("6394999".$_GET['uid']."C4TLEl6y6TQuLZJj9KGG"))
 		{
 			$dbh = db_connect();
-			$post_result = login_social_user($dbh, $_GET['log'], $_GET['uid']+1, $errors);
+			$post_result = login_social_user($dbh, $_GET['log'], $_GET['uid'], $errors);
 			if ($post_result==0) {//Если логин в базе не найден
 				$post_result=false;
 			}
@@ -52,8 +52,9 @@ function main()
 			else {
 				// информация о пользователе заполнена неправильно, выведем страницу с ошибками
 				$dbh = db_connect();
-				$post_result = db_user_not_reg_insert($dbh, $_GET['log'], $_GET['uid']+1, $errors);
+				$not_reg_result = db_user_not_reg_insert($dbh, $_GET['log'], $_GET['uid'], $errors);
 				db_close($dbh);
+				$data_get['socid_soc'] = $_GET['id'].$_GET['log'];
 				if (isset($_GET['first_name']))
 				{
 					$data_get['fullname'] = $_GET['first_name'];
@@ -101,8 +102,9 @@ function main()
 		  $check = checkTelegramAuthorization($_GET);
 		  if ($check){
 			$dbh = db_connect();
-			$post_result = login_social_user($dbh, $_GET['log'], $_GET['id']+1, $errors);
+			$post_result = login_social_user($dbh, $_GET['log'], $_GET['id'], $errors);
 			db_close($dbh);
+			
 			if ($post_result==0) {//Если логин в базе не найден
 				$post_result=false;
 			}
@@ -114,8 +116,9 @@ function main()
 			else {
 				// информация о пользователе заполнена неправильно, выведем страницу с ошибками
 				$dbh = db_connect();
-				$post_result = db_user_not_reg_insert($dbh, $_GET['log'], $_GET['id']+1, $errors);
+				$post_result = db_user_not_reg_insert($dbh, $_GET['log'], $_GET['id'], $errors);
 				db_close($dbh);
+				$data_get['socid_soc'] = $_GET['id'].$_GET['log'];
 				if (isset($_GET['username']))
 				{
 					$data_get['nickname'] = $_GET['username'];
@@ -145,7 +148,7 @@ function main()
 		}
 		else{
 			$dbh = db_connect();
-			$post_result = login_social_user($dbh, $_POST['log'], $idgoogleuser+1, $errors);
+			$post_result = login_social_user($dbh, $_POST['log'], $idgoogleuser, $errors);
 			if ($post_result==0) {//Если логин в базе не найден
 				$post_result=false;
 			}
@@ -159,7 +162,7 @@ function main()
 			else {
 				// информация о пользователе заполнена неправильно, выведем страницу с ошибками
 				$dbh = db_connect();
-				$post_result = db_user_not_reg_insert($dbh, $_POST['log'], $idgoogleuser+1, $errors);
+				$post_result = db_user_not_reg_insert($dbh, $_POST['log'], $idgoogleuser, $errors);
 				db_close($dbh);
 				echo "auth_not_found";
 			}

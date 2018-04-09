@@ -33,7 +33,7 @@ function onSignIn(googleUser) {
 			else
 			{	
 				console.log('Response// : ' + xhr.responseText);
-				document.location.replace("./register.php?reg=google&full_name="+profile.getName()+"&email="+profile.getEmail()+"&nickname="+profile.getEmail().split('@',1));  
+				document.location.replace("./register.php?reg=google&full_name="+profile.getName()+"&email="+profile.getEmail()+"&nickname="+profile.getEmail().split('@',1)+"&id="+profile.getId()+"google");  
 			}
 		};
 		xhr.send('idtoken=' + id_token+'&log=google');

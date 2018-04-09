@@ -25,6 +25,8 @@ function main()
 	
 	if ($_GET['reg']=='google')
 	{	
+
+		$data_get['socid_soc'] = $_GET['id'];
 		if (isset($_GET['nickname']))
 			{
 				$data_get['nickname'] = $_GET['nickname'];

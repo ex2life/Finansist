@@ -274,6 +274,7 @@ function register_user($dbh, &$user, &$errors)
 	read_string($_POST, 'password', $user, $errors, 6, 24, true);
 	read_string($_POST, 'password_confirmation', $user, $errors, 6, 24, true);
 	read_string($_POST, 'fullname', $user, $errors, 1, 80, true);
+	read_string($_POST, 'socid_soc', $user, $errors, 3, 225, false);
 	read_bool($_POST, 'newsletter', $user, $errors, '1', false, false);
 
 	// пароль и подтверждение пароля должны совпадать
@@ -293,6 +294,11 @@ function register_user($dbh, &$user, &$errors)
 
 	// форма передана правильно, сохраняем пользователя в базу данных
 	$db_user = db_user_insert($dbh, $user);
+	if (isset($user['socid_soc']))//если пользователь пытался изначально зайти через социальную сеть
+	{
+		db_user_socid_insert($dbh, db_user_social_reg_ok_insert($dbh, $user['socid_soc']), $db_user['id']);
+		
+	}
 	send_confirm_message($db_user);
 
 	// автоматически логиним пользователя после регистрации, запоминая его в сессии
@@ -748,6 +754,27 @@ function db_id_find_by_socid($dbh, $soc, $socid)
 }
 
 /*
+ * Выполняет удаление неактуальных данных из таблицы not_end_registration
+ */
+function db_del_not_reg($dbh, $hash)
+{
+	$query = 'DELETE FROM `not_end_registration` WHERE hash=?';
+	// подготовливаем запрос для выполнения
+	$stmt = mysqli_prepare($dbh, $query);
+	if ($stmt === false)
+		db_handle_error($dbh);
+	mysqli_stmt_bind_param($stmt, 'i',$hash);
+	// выполняем запрос eи получаем результат
+	if (mysqli_stmt_execute($stmt) === false)
+		db_handle_error($dbh);
+
+	// освобождаем ресурсы, связанные с хранением запроса
+	mysqli_stmt_close($stmt);
+	
+	return true;
+}
+
+/*
  * Вставляет в базу данных строку с информацией о пользователе, возвращает массив
  * с данными пользователя и его id в базе данных
  */
@@ -777,6 +804,37 @@ function db_user_insert($dbh, $user)
 	return $user;
 }
 
+
+
+/*
+ * Вставляет в базу данных строку с информацией о социальной сети пользователя
+ */
+ /*
+ * нужно сделать избежание повторений
+ */
+function db_user_socid_insert($dbh, $soc_data, $db_user_id)
+{
+	$soc=$soc_data["social"];
+	$query = 'INSERT INTO auth_social('.$soc.',id_user) VALUES(?,?)';
+
+
+	// подготовливаем запрос для выполнения
+	$stmt = mysqli_prepare($dbh, $query);
+	if ($stmt === false)
+		db_handle_error($dbh);
+	$user['status_active']=0;
+	mysqli_stmt_bind_param($stmt, 'is', $soc_data['id'], $db_user_id);
+
+	// выполняем запрос и получаем результат
+	if (mysqli_stmt_execute($stmt) === false)
+		db_handle_error($dbh);
+
+	// освобождаем ресурсы, связанные с хранением результата и запроса
+	mysqli_stmt_close($stmt);
+
+	return true;
+}
+
 /*
  * Вставляет в базу данных строку с информацией о id пользователя в соц сети, с помощью которой он регистрируется
  */
@@ -801,6 +859,44 @@ function db_user_not_reg_insert($dbh, $soc, $socid)
 	mysqli_stmt_close($stmt);
 
 	return true;
+}
+
+
+/*
+ * Вставляет в базу данных строку с информацией о id пользователя в соц сети, с помощью которой он регистрируется
+ */
+function db_user_social_reg_ok_insert($dbh, $socid_soc)
+{
+	$query = 'SELECT id,social FROM not_end_registration WHERE hash=?';
+
+	// подготовливаем запрос для выполнения
+	$stmt = mysqli_prepare($dbh, $query);
+	if ($stmt === false)
+		db_handle_error($dbh);
+	
+	$hash=md5($socid_soc."grimm");
+	
+	mysqli_stmt_bind_param($stmt, 's', $hash);
+
+	// выполняем запрос и получаем результат
+	if (mysqli_stmt_execute($stmt) === false)
+		db_handle_error($dbh);
+
+	// получаем результирующий набор строк
+	$qr = mysqli_stmt_get_result($stmt);
+	if ($qr === false)
+		db_handle_error($dbh);
+
+	// извлекаем результирующую строку
+	$result = mysqli_fetch_assoc($qr);
+	
+	// освобождаем ресурсы, связанные с хранением результата и запроса
+	mysqli_free_result($qr);
+	mysqli_stmt_close($stmt);
+	
+	db_del_not_reg($dbh, $hash);
+	
+	return $result;
 }
 
 
