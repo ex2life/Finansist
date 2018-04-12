@@ -7,19 +7,16 @@
   VK.Widgets.Auth("vk_auth", {"width":300,"authUrl":"http://finansist3261.com/registration/login.php?log=vk&"});
 </script>
 <script type="text/javascript">
+function signOut() {
+	var auth2 = gapi.auth2.getAuthInstance();
+	auth2.signOut();
+}
 function onSignIn(googleUser) {
 		  
         // Useful data for your client-side scripts:
         var profile = googleUser.getBasicProfile();
-        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-        console.log('Full Name: ' + profile.getName());
-        console.log('Given Name: ' + profile.getGivenName());
-        console.log('Family Name: ' + profile.getFamilyName());
-        console.log("Image URL: " + profile.getImageUrl());
-        console.log("Email: " + profile.getEmail());
         // The ID token you need to pass to your backend:
         var id_token = googleUser.getAuthResponse().id_token;
-        console.log("ID Token: " + id_token);
 		var xhr = new XMLHttpRequest();
 		xhr.open('POST', './login.php');
 		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -27,25 +24,18 @@ function onSignIn(googleUser) {
 			
 			if (xhr.responseText=="auth_ok") 
 			{	
-				console.log('Response/ : ' + xhr.responseText);
+				signOut();
 				document.location.replace("./");
 			}
 			else
 			{	
-				console.log('Response// : ' + xhr.responseText);
+				signOut();
 				document.location.replace("./register.php?reg=google&full_name="+profile.getName()+"&email="+profile.getEmail()+"&nickname="+profile.getEmail().split('@',1)+"&id="+profile.getId()+"google");  
 			}
 		};
 		xhr.send('idtoken=' + id_token+'&log=google');
 		
-      };
-
-		  function signOut() {
-			var auth2 = gapi.auth2.getAuthInstance();
-			auth2.signOut().then(function () {
-			  console.log('User signed out.');
-			});
-			}
+      }
 </script>
 <html>
   <head>
