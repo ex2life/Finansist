@@ -25,6 +25,7 @@ define('DB_PASSWORD', '');
 define('DB_NAME', 'Finansist');
 
 /*
- * Соль для хешей
+ * Соли для хешей
  */
  define('SALT', '28dney');
+ define('SALT2', 'grimm7');

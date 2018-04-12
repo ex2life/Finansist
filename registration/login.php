@@ -54,7 +54,7 @@ function main()
 				$dbh = db_connect();
 				$not_reg_result = db_user_not_reg_insert($dbh, $_GET['log'], $_GET['uid'], $errors);
 				db_close($dbh);
-				$data_get['socid_soc'] = $_GET['id'].$_GET['log'];
+				$data_get['socid_soc'] = $_GET['uid'].$_GET['log'];
 				if (isset($_GET['first_name']))
 				{
 					$data_get['fullname'] = $_GET['first_name'];

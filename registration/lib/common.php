@@ -347,7 +347,7 @@ $headers = "To: name <".$to.">\r\n";
 $headers = "From: Финансист\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: text/html; charset=utf-8";
-$user['link']=$_SERVER['HTTP_HOST']."/finansist/registration/verification.php?mail=".$user['email']."&hash=".md5(SALT.$user['id']);
+$user['link']=$_SERVER['HTTP_HOST']."/registration/verification.php?mail=".$user['email']."&hash=".md5(SALT.$user['id']);
 $message = gener_email_html($user);
 
 
@@ -815,7 +815,7 @@ function db_user_insert($dbh, $user)
 function db_user_socid_insert($dbh, $soc_data, $db_user_id)
 {
 	$soc=$soc_data["social"];
-	$query = 'INSERT INTO auth_social('.$soc.',id_user) VALUES(?,?)';
+	$query = 'REPLACE INTO auth_social('.$soc.',id_user) VALUES(?,?)';
 
 
 	// подготовливаем запрос для выполнения
@@ -846,7 +846,7 @@ function db_user_not_reg_insert($dbh, $soc, $socid)
 	if ($stmt === false)
 		db_handle_error($dbh);
 	$user['status_active']=0;
-	$hash=md5($socid.$soc."grimm");
+	$hash=md5($socid.$soc.SALT2);
 	mysqli_stmt_bind_param($stmt, 'iss',
 		$socid, $soc, $hash);
 	// выполняем запрос и получаем результат
@@ -874,7 +874,7 @@ function db_user_social_reg_ok_insert($dbh, $socid_soc)
 	if ($stmt === false)
 		db_handle_error($dbh);
 	
-	$hash=md5($socid_soc."grimm");
+	$hash=md5($socid_soc.SALT2);
 	
 	mysqli_stmt_bind_param($stmt, 's', $hash);
 
