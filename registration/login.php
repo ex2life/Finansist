@@ -14,13 +14,10 @@ function getUserFromToken($token) {
 	$client = new Google_Client();
 	$ticket = $client->verifyIdToken($token);
 	if ($ticket) {
-		// $data = $ticket->getAttributes();
 		return $ticket['sub']; // user ID
-		//return $data['payload']['sub']; // user ID
-		//return "ага";
 	}
-	return "нит";
-	//return false;
+
+	return false;
 }
 
 /*
