@@ -8,14 +8,29 @@ $current_user = db_user_find_by_id($dbh, get_current_user_id());
 <html>
   <head>
 
-<div  class="wrapper">
+<div align="right" style="margin-right:5%" class="wrapper">
 		<?php if ($current_user): ?>
-			<a href="./registration/users.php" class="user"><?= $current_user['fullname'] ?></a><a href="./registration/logout.php" class="button">Выход</a>
-		<?php else: ?>
-		<form action="./registration/index.php">
+			<a href=".\registration\users_company.php" class="btn btn-default">Мои компании</a>
+			<div class="btn-group">
+			  <a href="#" title="Настройки профиля" class="btn btn-default"><?= $current_user['fullname'] ?></a>
+			  <a href="./registration/logout.php" title="Выход" class="btn btn-default"><img width="20" height="20" src="../img/Out.png"></a>
+			</div>
 
-           <button type="submit" >Авторизация</button>
-	    </form>
+				
+
+		<?php else: ?>
+		<form action="./registration/login.php"  method="POST" class="form-inline">
+			<div class="input-group mb-2 mr-sm-2 mb-sm-0">
+				<div class="input-group-addon"><img width="20" height="20" src="../img/user.png"></div>
+				<input type="text" name="username" id="username" class="form-control" placeholder="Имя пользователя">
+			</div>
+			<div class="input-group mb-2 mr-sm-2 mb-sm-0">
+				<div class="input-group-addon"><img width="20" height="20" src="../img/key.png"></div>
+				<input type="password" name="password" id="password" class="form-control" placeholder="Пароль">
+			</div>
+			<button type="submit" name="login" id="login" class="btn btn-default">Вход</button>
+			<a href="./registration/register.php" class="btn btn-default">Регистрация</a>
+		</form>
 		<?php endif; ?>
 	</div>
 	<title>Финансист онлайн</title>
@@ -24,6 +39,8 @@ $current_user = db_user_find_by_id($dbh, get_current_user_id());
 	<meta name="keywords" content="" />
 	<link href="css/bootstrap.min.css" rel="stylesheet"/> 
 	<link href="css/style.css" rel="stylesheet"/> 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
 	

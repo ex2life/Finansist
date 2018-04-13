@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Апр 08 2018 г., 03:18
+-- Время создания: Апр 13 2018 г., 01:26
 -- Версия сервера: 5.6.37
 -- Версия PHP: 5.5.38
 
@@ -94,19 +94,10 @@ INSERT INTO `GSZ` (`Id`, `Brief_Name`, `Full_Name`) VALUES
 --
 
 CREATE TABLE `not_end_registration` (
-  `id` int(11) NOT NULL,
+  `id` int(50) NOT NULL,
   `social` char(20) NOT NULL,
   `hash` char(225) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `not_end_registration`
---
-
-INSERT INTO `not_end_registration` (`id`, `social`, `hash`) VALUES
-(2147483647, 'google', '144e7b73284877abd748e40d3bd1bb0f'),
-(65258218, 'vk', '38f6a97c0cc7a4e9c6ed33e2aa5280ef'),
-(179932056, 'telegram', '98db09ef3b08e41b8a8c9ceb656c0124');
 
 -- --------------------------------------------------------
 
@@ -170,17 +161,14 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Дамп данных таблицы `users`
---
-
-INSERT INTO `users` (`id`, `email`, `nickname`, `password`, `fullname`, `newsletter`, `status_active`) VALUES
-(35, 'dsfsd@sffdg.dfg', 'ex3life', '$2y$10$lGveWBCCdxSzbCRlNITPXOzDLAWkk2WfGXTCrOf6Igiqi3qnwtCRe', 'ex3life ex3life ex3life', 1, 1),
-(36, 'ex3life@ex3life.ex3life', 'ex3lifeex3life', '$2y$10$nviWWkkjQuEZb/NdiLviX.WI8iHl3ylplR5HI5TtkRmOXfja29I92', 'ex3life ex3life ex3life', 0, 1),
-(37, 'abramizsaransk@gmail.com', 'ex2life', '$2y$10$YPlUSodzPk4vCRpqQ/o6jO7fyZNRs8uw5oujiEZLuH2TZyJQEwcYG', 'Sergey Abramov', 1, 1);
-
---
 -- Индексы сохранённых таблиц
 --
+
+--
+-- Индексы таблицы `auth_social`
+--
+ALTER TABLE `auth_social`
+  ADD PRIMARY KEY (`id_user`);
 
 --
 -- Индексы таблицы `company`
@@ -225,7 +213,7 @@ ALTER TABLE `GSZ`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;COMMIT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
