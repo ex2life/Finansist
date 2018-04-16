@@ -12,14 +12,14 @@ $current_user = db_user_find_by_id($dbh, get_current_user_id());
 		<?php if ($current_user): ?>
 			<a href=".\registration\users_company.php" class="btn btn-default">Мои компании</a>
 			<div class="btn-group">
-			  <a href="#" title="Настройки профиля" class="btn btn-default"><?= $current_user['fullname'] ?></a>
+			  <a href="./registration/users_setting.php" title="Настройки профиля" class="btn btn-default"><?= $current_user['fullname'] ?></a>
 			  <a href="./registration/logout.php" title="Выход" class="btn btn-default"><img width="20" height="20" src="../img/Out.png"></a>
 			</div>
 
 				
 
 		<?php else: ?>
-		<form action="./registration/login.php"  method="POST" class="form-inline">
+		<form action="./registration/login.php?from=index"  method="POST" class="form-inline">
 			<div class="input-group mb-2 mr-sm-2 mb-sm-0">
 				<div class="input-group-addon"><img width="20" height="20" src="../img/user.png"></div>
 				<input type="text" name="username" id="username" class="form-control" placeholder="Имя пользователя">

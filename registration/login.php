@@ -169,22 +169,34 @@ function main()
 	{
 		if (is_postback()) 
 		{
-			// обрабатываем отправленную форму
-			$dbh = db_connect();
-			$post_result = login_user($dbh, $user, $errors);
-			db_close($dbh);
-
-			if ($post_result) 
+			if (isset($_GET['from']) and $_POST['username']=='' and $_POST['password']=='')
 			{
-				// перенаправляем на главную
-				redirect('./');
-			} 
-			else {
-				// информация о пользователе заполнена неправильно, выведем страницу с ошибками
-				render('login_form', array(
-					'form' => $_POST, 'errors' => $errors
-				));
-		}
+				// отправляем пользователю чистую форму для входа
+			render('login_form', array(
+				'form' => array(), 'errors' => array()
+			));
+			}
+			else
+			{
+				// обрабатываем отправленную форму
+				$dbh = db_connect();
+				$post_result = login_user($dbh, $user, $errors);
+				db_close($dbh);
+
+				if ($post_result) 
+				{
+					// перенаправляем на главную
+					redirect('./');
+				} 
+				else 
+				{
+					// информация о пользователе заполнена неправильно, выведем страницу с ошибками
+					render('login_form', array(
+						'form' => $_POST, 'errors' => $errors
+					));
+				}
+			}
+			
 		} 
 		else 
 		{

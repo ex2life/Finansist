@@ -23,11 +23,9 @@ function main()
 	// считываем текущего пользователя
 	$current_user = db_user_find_by_id($dbh, get_current_user_id());
 	
-	//Считываем список компаний пользователя
-    $company_list = db_company_find_all_for_current_user($dbh, get_current_user_id());
 	//выводим результирующую страницу
-	render('profile/spisok_company', array(
-		'company_list' => $company_list, 'current_user' => $current_user
+	render('profile/setting', array(
+		'user' => $current_user, 'errors' => $errors
 	));
 
 	// закрываем соединение с базой данных
