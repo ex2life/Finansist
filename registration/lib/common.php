@@ -1,8 +1,5 @@
 <?php
-
 require('config.php');
-
-
 /* ****************************************************************************
  * Общие функции
  */
@@ -303,6 +300,80 @@ function register_user($dbh, &$user, &$errors)
 
 	// автоматически логиним пользователя после регистрации, запоминая его в сессии
 	store_current_user_id($db_user['id']);
+	return true;
+}
+
+
+/*
+ * Выполняет чтение и проверку введенных 3 паролей
+ */
+function update_pass($dbh, &$pass3, &$errors)
+{
+	$pass3 = array();
+	$errors = empty_errors();
+
+	// считываем строки из запроса
+	read_string($_POST, 'old_password', $pass3, $errors, 6, 24, true);
+	read_string($_POST, 'password', $pass3, $errors, 6, 24, true);
+	read_string($_POST, 'password_confirmation', $pass3, $errors, 6, 24, true);
+
+	
+	// форма передана правильно, ищем пользователя и проверяем пароль
+	$db_user = db_user_find_by_id($dbh, get_current_user_id());
+	// смотрим, есть ли такой пользователь и правильно ли передан пароль
+	if ($db_user == null || !password_verify($pass3['old_password'], $db_user['password']))
+		return add_error($errors, 'old_password', 'invalid');
+	// пользователь ввел правильные имя и пароль	
+	unset($pass3['old_password']);
+	// пароль и подтверждение пароля должны совпадать
+	if (!is_error($errors, 'password') &&
+			!is_error($errors, 'password_confirmation') &&
+			$pass3['password'] != $pass3['password_confirmation']) {
+		$errors['fields'][] = 'password';
+		add_error($errors, 'password_confirmation', 'dont-match');
+	}
+
+	if (has_errors($errors))
+		return false;
+
+	// защищаем пароль пользователя
+	$db_user['password'] = password_hash($pass3['password'], PASSWORD_DEFAULT);
+	unset($pass3['password']);
+	unset($pass3['password_confirmation']);
+
+	// форма передана правильно, обновляем пароль пользователя в базе данных
+	$db_user = db_user_update($dbh, $db_user);
+	// автоматически выходим из профиля
+	logout_user();
+	return true;
+}
+
+/*
+ * Выполняет проверку и обновление новых данных пользователя
+ */
+function update_infoprofile($dbh, &$new_info, &$errors)
+{
+	$new_info = array();
+	$errors = empty_errors();
+
+	// считываем строки из запроса
+	read_string($_POST, 'nickname', $new_info, $errors, 2, 64, true);
+	//read_email($_POST, 'email', $new_info, $errors, 2, 64, true);
+	read_string($_POST, 'fullname', $new_info, $errors, 1, 80, true);
+	read_bool($_POST, 'newsletter', $new_info, $errors, '1', false, false);
+	
+	// форма передана правильно, ищем пользователя и проверяем пароль
+	$db_user = db_user_find_by_id($dbh, get_current_user_id());
+	// смотрим, есть ли такой пользователь и правильно ли передан пароль
+	$db_user['nickname']=$new_info['nickname'];
+	//$db_user['email']=$new_info['email'];
+	$db_user['fullname']=$new_info['fullname'];
+	$db_user['newsletter']=$new_info['newsletter'];
+
+	unset($new_info);
+
+	// форма передана правильно, обновляем пароль пользователя в базе данных
+	$db_user = db_user_update($dbh, $db_user);
 	return true;
 }
 
@@ -926,6 +997,8 @@ function db_user_update($dbh, $user)
 
 	return $user;
 }
+
+
 
 /*
  * Обновление статуса пользователя в базе данных

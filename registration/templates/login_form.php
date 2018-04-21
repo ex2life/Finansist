@@ -36,6 +36,27 @@ function onSignIn(googleUser) {
 		xhr.send('idtoken=' + id_token+'&log=google');
 		
       }
+	  function setServerStatus(status) {
+console.log(status);
+}
+function checkServerStatus()
+{
+    setServerStatus("unknown");
+	var img2 = document.createElement("img");
+	img2.hidden = true;
+	var img = document.body.appendChild(img2);
+    img.onload = function()
+    {
+        setServerStatus("online");
+		return true;
+    };
+    img.onerror = function()
+    {
+        setServerStatus("offline");
+		document.getElementById("telegram_button").hidden=true;
+    };
+    img.src = "https://telegram.org/img/t_logo.png";
+}
 </script>
 <html>
   <head>
@@ -52,7 +73,7 @@ function onSignIn(googleUser) {
     <script src="https://apis.google.com/js/platform.js" async defer></script>
   </head>
 	
-  <body>
+  <body  onload="checkServerStatus()">
   	<div class="container">
 	    <header class="header">
 			<h1 class="text-center">АВТОРИЗАЦИЯ</h1>
@@ -101,7 +122,7 @@ function onSignIn(googleUser) {
 				<b text-align="center" >Вход через социальные сети:<p></b>
 				<a href="login.php?type=vk"><img src="../img/VK_Logo.png" width="35" 
 					height="35" alt="Vkontakte"></a>
-				<a href="login.php?type=telegram"><img src="../img/Telegram_Logo.png" width="35" 
+				<a id="telegram_button" href="login.php?type=telegram"><img src="../img/Telegram_Logo.png" width="35" 
 					height="35" alt="Telegram"></a>
 				<a href="login.php?type=google"><img src="../img/Google_Logo.png" width="35" 
 					height="35" alt="Google"></a>
