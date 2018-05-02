@@ -7,11 +7,11 @@
   VK.Widgets.Auth("vk_auth", {"width":300,"authUrl":"http://finansist3261.com/registration/users_setting.php?log=vk&"});
 </script>
 <script type="text/javascript">
-function signOut() {
-	var auth2 = gapi.auth2.getAuthInstance();
-	auth2.signOut();
-}
-function onSignIn(googleUser) {
+	function signOut() {
+		var auth2 = gapi.auth2.getAuthInstance();
+		auth2.signOut();
+	}
+	function onSignIn(googleUser) {
 		  
         // Useful data for your client-side scripts:
         var profile = googleUser.getBasicProfile();
@@ -35,7 +35,34 @@ function onSignIn(googleUser) {
 		};
 		xhr.send('idtoken=' + id_token+'&log=google');
 		
-      }
+    }
+	function setTelegramStatus(status) {
+		console.log(status);
+	}
+	function checkTelegramStatus()
+	{	
+		var img2 = document.createElement("img");
+		img2.hidden = true;
+		var img = document.body.appendChild(img2);
+		img.onload = function()
+		{
+			setTelegramStatus("Telegram доступен");
+			document.getElementById("telegram_button").hidden=false;
+			document.getElementById("telegram_button_auth").hidden=false;
+			document.getElementById("telegram_no_proxy").hidden=true;
+			document.cookie = "Telegram_blocked=no";
+			return true;
+		};
+		img.onerror = function()
+		{
+			setTelegramStatus("Telegram не доступен");
+			document.getElementById("telegram_button").hidden=true;
+			document.getElementById("telegram_button_auth").hidden=true;
+			document.getElementById("telegram_no_proxy").hidden=false;
+			document.cookie = "Telegram_blocked=yes";
+		};
+		img.src = "https://telegram.org/img/t_logo.png";
+	}
 </script>
 <html>
   <head>
@@ -55,7 +82,7 @@ function onSignIn(googleUser) {
     <script src="https://apis.google.com/js/platform.js" async defer></script>
   </head>
 	
-  <body>
+  <body  onload="checkTelegramStatus()">
   	<div class="container">
 	    <div align="right" style="margin-right:5%" class="wrapper">
 			<a href="../" class="btn btn-default">Главная</a>
@@ -78,7 +105,7 @@ function onSignIn(googleUser) {
 					<span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a data-toggle="tab" href="#vk">VK</a></li>
-						<li><a data-toggle="tab" href="#telegram">Telegram</a></li>
+						<li id="telegram_button"  <?php if ($_COOKIE["Telegram_blocked"]=='yes'):?>hidden<?php endif; ?>><a data-toggle="tab" href="#telegram">Telegram</a></li>
 						<li><a data-toggle="tab" href="#google">Google</a></li> 
 					</ul>
 				</li>
@@ -143,8 +170,11 @@ function onSignIn(googleUser) {
 		</div>
     </div>
     <div id="telegram" class="tab-pane fade">
-      <div class="row footer">
-		<script async data-width="300" src="https://telegram.org/js/telegram-widget.js?4" data-telegram-login="finansist_authBot" data-size="large" data-auth-url="http://finansist3261.com/registration/users_setting.php?log=telegram&" data-request-access="write"></script>
+		<div  id="telegram_button_auth"  <?php if ($_COOKIE["Telegram_blocked"]=='yes'):?>hidden<?php endif; ?> class="row footer">
+			<script async data-width="300" src="https://telegram.org/js/telegram-widget.js?4" data-telegram-login="finansist_authBot" data-size="large" data-auth-url="http://finansist3261.com/registration/users_setting.php?log=telegram&" data-request-access="write"></script>
+		</div>
+		<div id="telegram_no_proxy" <?php if ($_COOKIE["Telegram_blocked"]!='yes'):?>hidden<?php endif; ?> class="row footer">
+			Сожалеем, но ваш интернет-провайдер блокирует доступ к Telegram. Добавить способ авторизации не возможно.
 		</div>
     </div>
     <div id="google" class="tab-pane fade">

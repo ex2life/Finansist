@@ -7,11 +7,11 @@
   VK.Widgets.Auth("vk_auth", {"width":300,"authUrl":"http://finansist3261.com/registration/login.php?log=vk&"});
 </script>
 <script type="text/javascript">
-function signOut() {
-	var auth2 = gapi.auth2.getAuthInstance();
-	auth2.signOut();
-}
-function onSignIn(googleUser) {
+	function signOut() {
+		var auth2 = gapi.auth2.getAuthInstance();
+		auth2.signOut();
+	}
+	function onSignIn(googleUser) {
 		  
         // Useful data for your client-side scripts:
         var profile = googleUser.getBasicProfile();
@@ -35,28 +35,34 @@ function onSignIn(googleUser) {
 		};
 		xhr.send('idtoken=' + id_token+'&log=google');
 		
-      }
-	  function setServerStatus(status) {
-console.log(status);
-}
-function checkServerStatus()
-{
-    setServerStatus("unknown");
-	var img2 = document.createElement("img");
-	img2.hidden = true;
-	var img = document.body.appendChild(img2);
-    img.onload = function()
-    {
-        setServerStatus("online");
-		return true;
-    };
-    img.onerror = function()
-    {
-        setServerStatus("offline");
-		document.getElementById("telegram_button").hidden=true;
-    };
-    img.src = "https://telegram.org/img/t_logo.png";
-}
+    }
+	function setTelegramStatus(status) {
+		console.log(status);
+	}
+	function checkTelegramStatus()
+	{
+		var img2 = document.createElement("img");
+		img2.hidden = true;
+		var img = document.body.appendChild(img2);
+		img.onload = function()
+		{
+			setTelegramStatus("Telegram доступен");
+			document.getElementById("telegram_button").hidden=false;
+			document.getElementById("telegram_button_auth").hidden=false;
+			document.getElementById("telegram_no_proxy").hidden=true;
+			document.cookie = "Telegram_blocked=no";
+			return true;
+		};
+		img.onerror = function()
+		{
+			setTelegramStatus("Telegram не доступен");
+			document.getElementById("telegram_button").hidden=true;
+			document.getElementById("telegram_button_auth").hidden=true;
+			document.getElementById("telegram_no_proxy").hidden=false;
+			document.cookie = "Telegram_blocked=yes";
+		};
+		img.src = "https://telegram.org/img/t_logo.png";
+	}
 </script>
 <html>
   <head>
@@ -73,7 +79,7 @@ function checkServerStatus()
     <script src="https://apis.google.com/js/platform.js" async defer></script>
   </head>
 	
-  <body  onload="checkServerStatus()">
+  <body  onload="checkTelegramStatus()">
   	<div class="container">
 	    <header class="header">
 			<h1 class="text-center">АВТОРИЗАЦИЯ</h1>
@@ -96,8 +102,11 @@ function checkServerStatus()
 			<div id="vk_auth"></div>
 			</div>
 			<?php elseif ($_GET['type']=='telegram'): ?>
-			<div class="row footer">
+			<div id="telegram_button_auth" <?php if ($_COOKIE["Telegram_blocked"]=='yes'):?>hidden<?php endif; ?> class="row footer">
 				<script async data-width="300" src="https://telegram.org/js/telegram-widget.js?4" data-telegram-login="finansist_authBot" data-size="large" data-auth-url="http://finansist3261.com/registration/login.php?log=telegram&" data-request-access="write"></script>
+			</div>
+			<div id="telegram_no_proxy" <?php if ($_COOKIE["Telegram_blocked"]!='yes'):?>hidden<?php endif; ?> class="row footer">
+				Сожалеем, но ваш интернет-провайдер блокирует доступ к Telegram. Воспользуйтесь другими способами авторизации.
 			</div>
 			<?php elseif ($_GET['type']=='google'): ?>
 			<div class="row footer">
@@ -122,7 +131,7 @@ function checkServerStatus()
 				<b text-align="center" >Вход через социальные сети:<p></b>
 				<a href="login.php?type=vk"><img src="../img/VK_Logo.png" width="35" 
 					height="35" alt="Vkontakte"></a>
-				<a id="telegram_button" href="login.php?type=telegram"><img src="../img/Telegram_Logo.png" width="35" 
+				<a id="telegram_button" href="login.php?type=telegram" <?php if ($_COOKIE["Telegram_blocked"]=='yes'):?>hidden<?php endif; ?>><img src="../img/Telegram_Logo.png" width="35" 
 					height="35" alt="Telegram"></a>
 				<a href="login.php?type=google"><img src="../img/Google_Logo.png" width="35" 
 					height="35" alt="Google"></a>
