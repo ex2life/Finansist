@@ -281,7 +281,18 @@ function register_user($dbh, &$user, &$errors)
 		$errors['fields'][] = 'password';
 		add_error($errors, 'password_confirmation', 'dont-match');
 	}
-
+	
+	//проверка уникальности никнейма
+	if (!db_freedom_nick_find($dbh, $user['nickname']))
+	{
+		add_error($errors, 'nickname', 'nick-not-freedom');
+	}
+	//проверка уникальности адреса электронной почты
+	if (!db_freedom_email_find($dbh, $user['email']))
+	{
+		add_error($errors, 'email', 'email-not-freedom');
+	}
+	
 	if (has_errors($errors))
 		return false;
 
@@ -362,9 +373,14 @@ function update_infoprofile($dbh, &$new_info, &$errors)
 	read_string($_POST, 'fullname', $new_info, $errors, 1, 80, true);
 	read_bool($_POST, 'newsletter', $new_info, $errors, '1', false, false);
 	
-	// форма передана правильно, ищем пользователя и проверяем пароль
+	// форма передана правильно, ищем пользователя
 	$db_user = db_user_find_by_id($dbh, get_current_user_id());
-	// смотрим, есть ли такой пользователь и правильно ли передан пароль
+	if (($db_user['nickname']!=$new_info['nickname']) and !db_freedom_nick_find($dbh, $new_info['nickname']))
+	{
+		add_error($errors, 'nickname', 'nick-not-freedom');
+	}
+	if (has_errors($errors))
+		return false;
 	$db_user['nickname']=$new_info['nickname'];
 	//$db_user['email']=$new_info['email'];
 	$db_user['fullname']=$new_info['fullname'];
@@ -755,6 +771,84 @@ function db_user_id_find_by_email($dbh, $mail)
 	$id_email=$result['id'];
 
 	return $id_email;
+}
+
+
+/*
+ * Выполняет поиск в базе данных и проверяет, есть ли пользователь с указанным никнеймом
+ */
+function db_freedom_nick_find($dbh, $nickname)
+{
+	$query = 'SELECT COUNT(*)  FROM users WHERE nickname=?';
+
+	// подготовливаем запрос для выполнения
+	$stmt = mysqli_prepare($dbh, $query);
+	if ($stmt === false)
+		db_handle_error($dbh);
+
+	mysqli_stmt_bind_param($stmt, 's', $nickname);
+
+	// выполняем запрос и получаем результат
+	if (mysqli_stmt_execute($stmt) === false)
+		db_handle_error($dbh);
+
+	// получаем результирующий набор строк
+	$qr = mysqli_stmt_get_result($stmt);
+	if ($qr === false)
+		db_handle_error($dbh);
+
+	// извлекаем результирующую строку
+	$result = mysqli_fetch_assoc($qr);
+
+	// освобождаем ресурсы, связанные с хранением результата и запроса
+	mysqli_free_result($qr);
+	mysqli_stmt_close($stmt);
+	
+	if ($result['COUNT(*)']==0)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+/*
+ * Выполняет поиск в базе данных и проверяет, есть ли пользователь
+ * с указанным адресом электронной почты
+ */
+function db_freedom_email_find($dbh, $email)
+{
+	$query = 'SELECT COUNT(*)  FROM users WHERE email=?';
+
+	// подготовливаем запрос для выполнения
+	$stmt = mysqli_prepare($dbh, $query);
+	if ($stmt === false)
+		db_handle_error($dbh);
+
+	mysqli_stmt_bind_param($stmt, 's', $email);
+
+	// выполняем запрос и получаем результат
+	if (mysqli_stmt_execute($stmt) === false)
+		db_handle_error($dbh);
+
+	// получаем результирующий набор строк
+	$qr = mysqli_stmt_get_result($stmt);
+	if ($qr === false)
+		db_handle_error($dbh);
+
+	// извлекаем результирующую строку
+	$result = mysqli_fetch_assoc($qr);
+
+	// освобождаем ресурсы, связанные с хранением результата и запроса
+	mysqli_free_result($qr);
+	mysqli_stmt_close($stmt);
+	
+	if ($result['COUNT(*)']==0)
+	{
+		return true;
+	}
+
+	return false;
 }
 
 /*

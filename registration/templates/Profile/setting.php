@@ -114,6 +114,18 @@
     <div id="setting" class="tab-pane fade in active">
 		<form action="users_setting.php" method="POST">
 			<div align="center" >
+			<?php if (has_errors($errors)): ?>
+				<div class="error-msg">
+					При заполнении формы возникли ошибки, пожалуйста проверьте правильность заполнения полей и нажмите "Войти"!
+				</div>
+				<?php if (is_error($errors, 'nickname')): ?>
+				<?php if ($errors['messages']['nickname']=='@nickname-nick-not-freedom'): ?>
+				<div class="error-msg">
+				Данный ник занят другим пользователем.
+				</div>
+				<?php endif;?>
+				<?php endif;?>
+			<?php endif;?>
 			<div class="row <?= is_error($errors, 'nickname') ? 'error' : '' ?>">
 				<label for="nickname">Имя пользователя<span class="required">*</span>:</label>
 				<input type="text" name="nickname" id="nickname"

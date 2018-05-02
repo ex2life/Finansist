@@ -27,6 +27,20 @@
 		<div class="error-msg">
 		При заполнении формы возникли ошибки, пожалуйста проверьте правильность заполнения полей и нажмите "Зарегистрироваться"!
 		</div>
+			<?php if (is_error($errors, 'nickname')): ?>
+				<?php if ($errors['messages']['nickname']=='@nickname-nick-not-freedom'): ?>
+					<div class="error-msg">
+						Данный ник занят другим пользователем.
+					</div>
+				<?php endif;?>
+			<?php endif;?>
+			<?php if (is_error($errors, 'email')): ?>
+				<?php if ($errors['messages']['email']=='@email-email-not-freedom'): ?>
+					<div class="error-msg">
+						Пользователь с таким адресом электронной почты уже есть на сайте.
+					</div>
+				<?php endif;?>
+			<?php endif;?>
 		<?php endif; ?>
 		<form action="register.php" method="POST">
 			<div class="row <?= is_error($errors, 'nickname') ? 'error' : '' ?>">
