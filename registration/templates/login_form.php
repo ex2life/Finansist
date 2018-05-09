@@ -139,6 +139,9 @@
 					height="35" alt="Email"></a>
 			</div>
 			<div class="row footer">
+				Забыли пароль? <a href="restore_password.php">Востановите пароль здесь!</a>
+			</div>
+			<div class="row footer">
 				Еще не зарегистрированы? <a href="register.php">Зарегистрируйтесь!</a>
 			</div>
 		</form>

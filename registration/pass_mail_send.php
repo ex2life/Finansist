@@ -1,7 +1,3 @@
-<?php
-header("HTTP/1.1 301 Moved Permanently");
-header('Refresh: 10; url=login.php');
-?>
 <html>
   <head>
 	<title>Финансист онлайн</title>
@@ -15,7 +11,7 @@ header('Refresh: 10; url=login.php');
   </head>
 	
   <body>
-  	<div align="right" style="margin-right:5%" class="wrapper">
+	<div align="right" style="margin-right:5%" class="wrapper">
 		<?php if ($current_user): ?>
 			<a href=".\registration\users_company.php" class="btn btn-default">Мои компании</a>
 			<div class="btn-group">
@@ -40,18 +36,16 @@ header('Refresh: 10; url=login.php');
 		</form>
 		<?php endif; ?>
 	</div>
-	<div class="container">
+  	<div class="container">
 	    <header class="header">
 			<h1 class="text-center">ФИНАНСИСТ ОНЛАЙН</h1>
 			
 		</header>
 		<div id="formlogin" class="jumbotron">
-	   	<h2>Спасибо за подтверждение регистрации!</h2>
+	   	<h2>Письмо с ссылкой для восстановления пароля отправлено!</h2>
 	<div class="info">
-	<?php
-echo 'Через 10 сек. вы будете перенаправлены на страницу авторизации.';
-exit();
-?>
+		<H3><P>Для того, чтобы восстановить пароль, перейдите по ссылке в письме, которое вам сейчас придет от нас!<p>
+		Если вдруг вы не видете письма на почте, подождите несколько минут, либо проверьте СПАМ ящик.</H3>
 	</div>
 </div>
 	</div>

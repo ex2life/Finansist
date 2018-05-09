@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Апр 13 2018 г., 01:26
+-- Время создания: Май 10 2018 г., 00:21
 -- Версия сервера: 5.6.37
 -- Версия PHP: 5.5.38
 
@@ -40,7 +40,8 @@ CREATE TABLE `auth_social` (
 --
 
 INSERT INTO `auth_social` (`id_user`, `vk`, `google`, `telegram`) VALUES
-(37, '65258217', '102343534902327545840', '179932055');
+(78, '65258217', '102343534902327545840', '179932055'),
+(79, '211252714', '', '');
 
 -- --------------------------------------------------------
 
@@ -62,10 +63,21 @@ CREATE TABLE `company` (
 --
 
 INSERT INTO `company` (`company_id`, `user_id`, `name`, `opf`, `inn`, `sno`) VALUES
-(1, 11, 'Toyota', 3, 55566677799, 1),
+(1, 78, 'Toyota', 3, 55566677799, 1),
 (2, 12, 'Kik', 1, 145125478546, 3),
-(3, 11, 'BMW', 4, 66655566655, 2),
+(3, 78, 'BMW', 4, 66655566655, 2),
 (4, 12, 'Coca-Cola', 2, 12345678912, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `forget_password`
+--
+
+CREATE TABLE `forget_password` (
+  `email_user` varchar(225) NOT NULL,
+  `time` varchar(225) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -161,6 +173,15 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Дамп данных таблицы `users`
+--
+
+INSERT INTO `users` (`id`, `email`, `nickname`, `password`, `fullname`, `newsletter`, `status_active`) VALUES
+(78, 'abramizsaransk@gmail.com', 'ex2life', '$2y$10$HWAUGI22HQfTF9P9D66OoONqfRo0Vg38Dl3BWLYW/aJH03pGXEaZy', 'Абрамов Сергей', 0, 1),
+(79, 'angel@angel.angel', 'angel', '$2y$10$5xRDBj8vHdPCWB7uuaFjxuGMnAHAXlQeWZMDxUiyzoWyrk4Vun9xW', 'Ангел Ангел', 1, 1),
+(80, 'ex4life@ex4life.ex4life', 'ex4life', '$2y$10$HDIA9GYLU4afE6lsW53hgO1J9R6g2kX7cTAzZ7E4wumHjVGljvaeC', 'ex4life ex4life ex4life', 0, 1);
+
+--
 -- Индексы сохранённых таблиц
 --
 
@@ -175,6 +196,12 @@ ALTER TABLE `auth_social`
 --
 ALTER TABLE `company`
   ADD PRIMARY KEY (`company_id`);
+
+--
+-- Индексы таблицы `forget_password`
+--
+ALTER TABLE `forget_password`
+  ADD PRIMARY KEY (`email_user`);
 
 --
 -- Индексы таблицы `GSZ`
@@ -213,7 +240,7 @@ ALTER TABLE `GSZ`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;COMMIT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

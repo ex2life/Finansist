@@ -84,6 +84,9 @@
 				<input type="reset" name="reset" id="reset" value="Очистить"/>
 			</div>
 			<div class="row footer">
+				Забыли пароль? <a href="restore_password.php">Востановите пароль здесь!</a>
+			</div>
+			<div class="row footer">
 				Уже зарегистрированы? <a href="login.php">Войдите в систему!</a>
 			</div>
 		</form>
