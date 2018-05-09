@@ -18,19 +18,21 @@
         // The ID token you need to pass to your backend:
         var id_token = googleUser.getAuthResponse().id_token;
 		var xhr = new XMLHttpRequest();
-		xhr.open('POST', './login.php');
+		xhr.open('POST', './users_setting.php');
 		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		xhr.onload = function() {
 			
-			if (xhr.responseText=="auth_ok") 
+			if (xhr.responseText=="ok") 
 			{	
 				signOut();
-				document.location.replace("./");
+				console.log('1');
+			document.location.replace("./users_setting.php");
 			}
 			else
 			{	
 				signOut();
-				document.location.replace("./users_setting.php?reg=google&full_name="+profile.getName()+"&email="+profile.getEmail()+"&nickname="+profile.getEmail().split('@',1)+"&id="+profile.getId()+"google");  
+				console.log('2');
+				//document.location.replace("./register.php?reg=google&full_name="+profile.getName()+"&email="+profile.getEmail()+"&nickname="+profile.getEmail().split('@',1)+"&id="+profile.getId()+"google");  
 			}
 		};
 		xhr.send('idtoken=' + id_token+'&log=google');
@@ -104,9 +106,9 @@
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Подключение социальных сетей
 					<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a data-toggle="tab" href="#vk">VK</a></li>
+						<li ><a data-toggle="tab" href="#vk">VK</a></li>
 						<li id="telegram_button"  <?php if ($_COOKIE["Telegram_blocked"]=='yes'):?>hidden<?php endif; ?>><a data-toggle="tab" href="#telegram">Telegram</a></li>
-						<li><a data-toggle="tab" href="#google">Google</a></li> 
+						<li ><a data-toggle="tab" href="#google">Google</a></li> 
 					</ul>
 				</li>
 			</ul>
@@ -176,25 +178,44 @@
 		</form>
     </div>
 	<div id="vk" class="tab-pane fade">
+		<?php if ($user['vk']==NULL):?>
 		<div class="row footer">
 			<!-- VK Widget -->
 			<div id="vk_auth"></div>
 		</div>
+		<?php else: ?>
+		<div class="row footer">
+			Авторизация "Вконтакте" уже подключена.
+		</div>
+		<?php endif;?>
     </div>
     <div id="telegram" class="tab-pane fade">
+		<?php if ($user['telegram']==NULL):?>
 		<div  id="telegram_button_auth"  <?php if ($_COOKIE["Telegram_blocked"]=='yes'):?>hidden<?php endif; ?> class="row footer">
 			<script async data-width="300" src="https://telegram.org/js/telegram-widget.js?4" data-telegram-login="finansist_authBot" data-size="large" data-auth-url="http://finansist3261.com/registration/users_setting.php?log=telegram&" data-request-access="write"></script>
 		</div>
 		<div id="telegram_no_proxy" <?php if ($_COOKIE["Telegram_blocked"]!='yes'):?>hidden<?php endif; ?> class="row footer">
 			Сожалеем, но ваш интернет-провайдер блокирует доступ к Telegram. Добавить способ авторизации не возможно.
 		</div>
+		<?php else: ?>
+		<div class="row footer">
+			Авторизация "Telegram" уже подключена.
+		</div>
+		<?php endif;?>
     </div>
     <div id="google" class="tab-pane fade">
+		<?php if ($user['google']==NULL):?>
 		<div class="row footer">
-		<div text-align="center" class="g-signin2" data-width="250"  data-onsuccess="onSignIn" data-theme="dark"></div>
+			<div text-align="center" class="g-signin2" data-width="250"  data-onsuccess="onSignIn" data-theme="dark"></div>
 		</div>
+		<?php else: ?>
+		<div class="row footer">
+			Авторизация "Google" уже подключена.
+		</div>
+		<?php endif;?>
+		
     </div>
-    
+
   </div>
   </div>
 	</div>

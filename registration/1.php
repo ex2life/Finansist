@@ -13,16 +13,16 @@ function main()
 
 	// подключаемся к базе данных
 	$dbh = db_connect();
-
-
-	if (db_freedom_nick_find($dbh, "ex2life"))
-	{
+	$arr=db_socid_user_array($dbh, "65");
+	var_export($arr);
+	if ($arr['vk']==NULL){
 		echo "true";
 	}
 	else
 	{
 		echo "false";
 	}
+	db_close($dbh);
 }
 
 main();

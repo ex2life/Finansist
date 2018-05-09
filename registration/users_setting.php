@@ -29,40 +29,33 @@ function main()
 		// отправляем пользователя на страницу входа в систему
 		redirect('login.php');
 	}
+	else
+	{
+		$dbh = db_connect();
+		$social=db_socid_user_array($dbh, get_current_user_id());
+		db_close($dbh);
+	}
 	
 	if ($_GET['log']=='vk')
 	{
 		if ($_GET['hash']==md5("6394999".$_GET['uid']."C4TLEl6y6TQuLZJj9KGG"))
 		{
 			$dbh = db_connect();
-			$post_result = login_social_user($dbh, $_GET['log'], $_GET['uid'], $errors);
-			if ($post_result==0) {//Если логин в базе не найден
-				$post_result=false;
-			}
+			$social_id = array(
+				"social" => "vk",
+				"id" => $_GET['uid'],
+			);
+			$post_result = db_user_socid_insert($dbh, $social_id, get_current_user_id());
+			
+			// считываем текущего пользователя
+			$current_user = db_user_find_by_id($dbh, get_current_user_id());
+			
+			//выводим результирующую страницу
+			render('profile/setting', array(
+				'user' => array_merge($current_user,$social), 'errors' => $errors
+			));
+			// закрываем соединение с базой данных
 			db_close($dbh);
-			if ($post_result) 
-			{
-				// перенаправляем на главную
-				redirect('./');
-			} 
-			else {
-				// информация о пользователе заполнена неправильно, выведем страницу с ошибками
-				$dbh = db_connect();
-				$not_reg_result = db_user_not_reg_insert($dbh, $_GET['log'], $_GET['uid'], $errors);
-				db_close($dbh);
-				$data_get['socid_soc'] = $_GET['uid'].$_GET['log'];
-				if (isset($_GET['first_name']))
-				{
-					$data_get['fullname'] = $_GET['first_name'];
-				}
-				if (isset($_GET['last_name']))
-				{
-					$data_get['fullname'] = $data_get['fullname']." ".$_GET['last_name'];
-				}
-				render('register_form', array(
-					'form' => $data_get, 'errors' => $errors
-				));
-			}
 		};
 	}
 	elseif ($_GET['log']=='telegram')
@@ -98,39 +91,21 @@ function main()
 		  $check = checkTelegramAuthorization($_GET);
 		  if ($check){
 			$dbh = db_connect();
-			$post_result = login_social_user($dbh, $_GET['log'], $_GET['id'], $errors);
-			db_close($dbh);
+			$social_id = array(
+				"social" => "telegram",
+				"id" => $_GET['id'],
+			);
+			$post_result = db_user_socid_insert($dbh, $social_id, get_current_user_id());
 			
-			if ($post_result==0) {//Если логин в базе не найден
-				$post_result=false;
-			}
-			if ($post_result) 
-			{
-				//// перенаправляем на главную
-				redirect('./');
-			} 
-			else {
-				// информация о пользователе заполнена неправильно, выведем страницу с ошибками
-				$dbh = db_connect();
-				$post_result = db_user_not_reg_insert($dbh, $_GET['log'], $_GET['id'], $errors);
-				db_close($dbh);
-				$data_get['socid_soc'] = $_GET['id'].$_GET['log'];
-				if (isset($_GET['username']))
-				{
-					$data_get['nickname'] = $_GET['username'];
-				}
-				if (isset($_GET['first_name']))
-				{
-					$data_get['fullname'] = $_GET['first_name'];
-				}
-				if (isset($_GET['last_name']))
-				{
-					$data_get['fullname'] = $data_get['fullname']." ".$_GET['last_name'];
-				}
-				render('register_form', array(
-					'form' => $data_get, 'errors' => $errors
-				));
-			}
+			// считываем текущего пользователя
+			$current_user = db_user_find_by_id($dbh, get_current_user_id());
+			
+			//выводим результирующую страницу
+			render('profile/setting', array(
+				'user' => array_merge($current_user,$social), 'errors' => $errors
+			));
+			// закрываем соединение с базой данных
+			db_close($dbh);
 		  }
 		} catch (Exception $e) {
 		  die ($e->getMessage());
@@ -142,26 +117,26 @@ function main()
 		if (!$idgoogleuser) {
 			echo ("Что-то пошло не так.");
 		}
-		else{
+		else
+		{
 			$dbh = db_connect();
-			$post_result = login_social_user($dbh, $_POST['log'], $idgoogleuser, $errors);
-			if ($post_result==0) {//Если логин в базе не найден
-				$post_result=false;
-			}
+			$social_id = array(
+				"social" => "google",
+				"id" => $idgoogleuser,
+			);
+			$post_result = db_user_socid_insert($dbh, $social_id, get_current_user_id());
 			db_close($dbh);
 			if ($post_result) 
 			{
 				//// перенаправляем на главную
 				///redirect('./');
-				echo "auth_ok";
+				echo "ok";
 			} 
 			else {
 				// информация о пользователе заполнена неправильно, выведем страницу с ошибками
-				$dbh = db_connect();
-				$post_result = db_user_not_reg_insert($dbh, $_POST['log'], $idgoogleuser, $errors);
-				db_close($dbh);
-				echo "auth_not_found";
+				echo "not_ok";
 			}
+
 		}
 	}
 	elseif (is_postback('updateinfo'))
@@ -169,13 +144,13 @@ function main()
 		// обрабатываем отправленную форму
 		$dbh = db_connect();
 		$post_result = update_infoprofile($dbh, $new_info, $errors);
-
+		
 		// считываем текущего пользователя
 		$current_user = db_user_find_by_id($dbh, get_current_user_id());
 			
 		//выводим результирующую страницу
 		render('profile/setting', array(
-			'user' => $current_user, 'errors' => $errors
+			'user' => array_merge($current_user,$social), 'errors' => $errors
 		));
 		// закрываем соединение с базой данных
 		db_close($dbh);
@@ -203,7 +178,7 @@ function main()
 			
 			//выводим результирующую страницу
 			render('profile/setting', array(
-				'user' => $current_user, 'errors' => $errors
+				'user' => array_merge($current_user,$social), 'errors' => $errors
 			));
 			// закрываем соединение с базой данных
 			db_close($dbh);
@@ -221,7 +196,7 @@ function main()
 		
 		//выводим результирующую страницу
 		render('profile/setting', array(
-			'user' => $current_user, 'errors' => $errors
+			'user' => array_merge($current_user,$social), 'errors' => $errors
 		));
 
 		// закрываем соединение с базой данных

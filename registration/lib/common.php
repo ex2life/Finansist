@@ -1159,6 +1159,39 @@ function db_user_find_by_login($dbh, $login)
 }
 
 /*
+ * 
+ */
+function db_socid_user_array($dbh, $id)
+{
+	$query = 'SELECT * FROM auth_social WHERE id_user=?';
+
+	// подготовливаем запрос для выполнения
+	$stmt = mysqli_prepare($dbh, $query);
+	if ($stmt === false)
+		db_handle_error($dbh);
+
+	mysqli_stmt_bind_param($stmt, 'i', $id);
+
+	// выполняем запрос и получаем результат
+	if (mysqli_stmt_execute($stmt) === false)
+		db_handle_error($dbh);
+
+	// получаем результирующий набор строк
+	$qr = mysqli_stmt_get_result($stmt);
+	if ($qr === false)
+		db_handle_error($dbh);
+
+	// извлекаем результирующую строку
+	$result = mysqli_fetch_assoc($qr);
+
+	// освобождаем ресурсы, связанные с хранением результата и запроса
+	mysqli_free_result($qr);
+	mysqli_stmt_close($stmt);
+
+	return $result;
+}
+
+/*
  * Выполняет поиск id пользователя по id социальной сети
  */
 function db_id_find_by_socid($dbh, $soc, $socid)
@@ -1333,7 +1366,7 @@ function forget_password_find_time($dbh, $email)
 function db_user_socid_insert($dbh, $soc_data, $db_user_id)
 {
 	$soc=$soc_data["social"];
-	$query = 'REPLACE INTO auth_social('.$soc.',id_user) VALUES(?,?)';
+	$query = 'INSERT INTO auth_social('.$soc.',id_user) VALUES(?,?) ON DUPLICATE KEY UPDATE '.$soc.'=?';
 
 
 	// подготовливаем запрос для выполнения
@@ -1341,7 +1374,7 @@ function db_user_socid_insert($dbh, $soc_data, $db_user_id)
 	if ($stmt === false)
 		db_handle_error($dbh);
 	$user['status_active']=0;
-	mysqli_stmt_bind_param($stmt, 'is', $soc_data['id'], $db_user_id);
+	mysqli_stmt_bind_param($stmt, 'iii', $soc_data['id'], $db_user_id, $soc_data['id']);
 
 	// выполняем запрос и получаем результат
 	if (mysqli_stmt_execute($stmt) === false)
